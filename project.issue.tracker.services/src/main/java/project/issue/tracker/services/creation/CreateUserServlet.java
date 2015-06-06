@@ -1,17 +1,21 @@
 package project.issue.tracker.services.creation;
 
-import com.track.be.models.DBUser;
-import com.track.utils.FORM_PARAMS;
-import net.sf.json.JSONObject;
-import org.apache.commons.validator.GenericValidator;
+
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+
+import net.sf.json.JSONObject;
+
+import org.apache.commons.validator.GenericValidator;
+
+import project.issue.tracker.database.models.DBUser;
+import project.issue.tracker.utils.FORM_PARAMS;
 
 @WebServlet(name = "CreateUser", urlPatterns = {"/createUser.do"})
 public class CreateUserServlet extends HttpServlet {

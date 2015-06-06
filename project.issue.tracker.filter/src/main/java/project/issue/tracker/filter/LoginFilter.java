@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import project.issue.tracker.database.models.DBUser;
+import project.issue.tracker.utils.ATTRIBUTES;
+import project.issue.tracker.utils.FORM_PARAMS;
 
 @WebFilter(description = "Login filter for session creation", servletNames = {"Loginer"}, filterName = "login")
 public class LoginFilter implements Filter {
@@ -47,7 +49,6 @@ public class LoginFilter implements Filter {
         }
     }
 
-    @Override
     public void destroy() {
     }
 }

@@ -1,16 +1,15 @@
 package project.issue.tracker.listener;
 
-import com.track.be.db.InitDB;
-import com.track.be.db.event.EventRunnable;
-import com.track.be.db.event.EventSystem;
-
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import project.issue.tracker.database.db.InitDB;
+import project.issue.tracker.database.db.event.EventRunnable;
+import project.issue.tracker.database.db.event.EventSystem;
+
 @WebListener(value = "App initilization event listener")
 public class DummyContextListener implements ServletContextListener {
-    @Override
     public void contextInitialized(ServletContextEvent sce) {
         if (Boolean.parseBoolean(sce.getServletContext().getInitParameter("initializeDB"))) {
             InitDB.start();
@@ -26,7 +25,6 @@ public class DummyContextListener implements ServletContextListener {
 
     }
 
-    @Override
     public void contextDestroyed(ServletContextEvent sce) {
         if (EventSystem.event_thread != null) {
             EventSystem.event_thread.interrupt();

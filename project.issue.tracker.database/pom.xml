@@ -4,7 +4,6 @@
 
   <groupId>project.issue.tracker</groupId>
   <artifactId>project.issue.tracker.database</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>project.issue.tracker.database</name>
@@ -22,4 +21,10 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <parent>
+  	<groupId>project.issue.tracker.masterGroup</groupId>
+  	<artifactId>project.issue.tracker.master</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  	<relativePath>../project.issue.tracker.master</relativePath>
+  </parent>
 </project>

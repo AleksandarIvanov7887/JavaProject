@@ -1,7 +1,9 @@
 package project.issue.tracker.utils;
 
 public class FORM_PARAMS {
-    private FORM_PARAMS() {}
+    private FORM_PARAMS() {   	
+    }
+    
     public static class CREATE_TASK {
         private CREATE_TASK() {
         }

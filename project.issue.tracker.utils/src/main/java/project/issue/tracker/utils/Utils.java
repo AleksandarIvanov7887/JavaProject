@@ -14,7 +14,6 @@ public class Utils {
         return session != null && session.getAttribute(ATTRIBUTES.USER_BEAN) != null;
     }
 
-
     public static boolean isAdmin(HttpServletRequest request) {
         return isLoggedIn(request) && ((DBUser) request.getSession(false).getAttribute(ATTRIBUTES.USER_BEAN)).isAdmin();
     }

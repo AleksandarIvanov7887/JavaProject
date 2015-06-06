@@ -77,7 +77,6 @@ public final class Database { // ver: 3.3.6
         char first, second;
         int key1_length, key2_length;
 
-        @Override
         public int compare(final String key1, final String key2) {
             if (key1.charAt(0) != '#' && key2.charAt(0) == '#') {
                 return -1;
@@ -176,8 +175,6 @@ public final class Database { // ver: 3.3.6
                 try {
                     this.client.set_keyspace(keyspace);
                 } catch (TException ex) {
-                    // System.out.println("ERROR CREATING KEYSPACE");
-                } catch (InvalidRequestException ex) {
                     Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } catch (Exception e) {

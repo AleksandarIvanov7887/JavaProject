@@ -1,12 +1,19 @@
 package project.issue.tracker.filter;
 
-import project.issue.tracker.database.utils.*;
+import java.io.IOException;
 
-import javax.servlet.*;
+import javax.servlet.DispatcherType;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import project.issue.tracker.utils.Utils;
 
 @WebFilter(urlPatterns = {"/*"}, dispatcherTypes = {DispatcherType.REQUEST}, filterName = "session")
 public class SessionFilter implements Filter {

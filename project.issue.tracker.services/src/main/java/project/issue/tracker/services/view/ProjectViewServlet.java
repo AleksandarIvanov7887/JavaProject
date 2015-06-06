@@ -1,14 +1,16 @@
 package project.issue.tracker.services.view;
 
-import com.track.be.models.DBProject;
-import com.track.utils.FORM_PARAMS;
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import net.sf.json.JSONObject;
+import project.issue.tracker.database.models.DBProject;
+import project.issue.tracker.utils.FORM_PARAMS;
 
 @WebServlet(urlPatterns = {"/viewProject.do"}, name = "ProjectViewer")
 public class ProjectViewServlet extends HttpServlet {

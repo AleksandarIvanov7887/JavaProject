@@ -4,8 +4,8 @@
 
   <groupId>project.issue.tracker</groupId>
   <artifactId>project.issue.tracker.utils</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <version>0.0.1</version>
+  <packaging>pom</packaging>
 
   <name>project.issue.tracker.utils</name>
   <url>http://maven.apache.org</url>
@@ -22,4 +22,9 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <parent>
+  	<groupId>project.issue.tracker.masterGroup</groupId>
+  	<artifactId>project.issue.tracker.master</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  </parent>
 </project>

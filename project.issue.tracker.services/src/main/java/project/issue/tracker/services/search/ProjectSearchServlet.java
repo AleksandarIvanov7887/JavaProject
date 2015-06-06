@@ -1,18 +1,19 @@
 package project.issue.tracker.services.search;
 
-import com.track.be.models.DBProject;
-import com.track.utils.FORM_PARAMS;
-import com.track.utils.Utils;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import project.issue.tracker.database.models.DBProject;
+import project.issue.tracker.utils.FORM_PARAMS;
+import project.issue.tracker.utils.Utils;
 
 @WebServlet(urlPatterns = {"/searchProject.do"}, name = "ProjectSearch")
 public class ProjectSearchServlet extends HttpServlet {

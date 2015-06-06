@@ -1,20 +1,21 @@
 package project.issue.tracker.services.change.task;
 
-import com.track.be.models.DBEvent;
-import com.track.be.models.DBProject;
-import com.track.be.models.DBTask;
-import com.track.be.models.DBUser;
-import com.track.utils.ATTRIBUTES;
-import com.track.utils.FORM_PARAMS;
-import com.track.utils.Utils;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+
+import project.issue.tracker.database.models.DBEvent;
+import project.issue.tracker.database.models.DBProject;
+import project.issue.tracker.database.models.DBTask;
+import project.issue.tracker.database.models.DBUser;
+import project.issue.tracker.utils.ATTRIBUTES;
+import project.issue.tracker.utils.FORM_PARAMS;
+import project.issue.tracker.utils.Utils;
 
 @WebServlet(urlPatterns = {"/changeTask.do"}, name = "TaskChanger")
 public class ChangeTaskServlet extends HttpServlet {

@@ -1,17 +1,18 @@
 package project.issue.tracker.services.view;
 
-import com.track.be.models.DBProject;
-import com.track.be.models.DBTask;
-import com.track.be.models.DBUser;
-import net.sf.json.JSONObject;
+import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
+
+import net.sf.json.JSONObject;
+import project.issue.tracker.database.models.DBProject;
+import project.issue.tracker.database.models.DBTask;
+import project.issue.tracker.database.models.DBUser;
 
 @WebServlet(urlPatterns = {"/updateAutocomplete.do"}, name = "Autocomplete Updater")
 public class BackendInformaiton extends HttpServlet {

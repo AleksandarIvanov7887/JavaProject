@@ -1,15 +1,17 @@
 package project.issue.tracker.services.creation;
 
-import com.track.be.models.DBProject;
-import com.track.utils.FORM_PARAMS;
-import net.sf.json.JSONObject;
+
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import net.sf.json.JSONObject;
+import project.issue.tracker.database.models.DBProject;
+import project.issue.tracker.utils.FORM_PARAMS;
 
 @WebServlet( urlPatterns = {"/createProject.do"}, name = "projectCreator")
 public class CreateProjectServlet extends HttpServlet {

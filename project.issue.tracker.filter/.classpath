@@ -22,7 +22,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.0"/>
 	<classpathentry kind="src" path="/project.issue.tracker.database"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/project.issue.tracker.utils"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

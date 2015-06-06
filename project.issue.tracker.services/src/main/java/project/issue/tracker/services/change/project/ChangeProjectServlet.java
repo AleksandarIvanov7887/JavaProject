@@ -1,13 +1,15 @@
 package project.issue.tracker.services.change.project;
 
-import com.track.be.models.DBProject;
-import com.track.utils.FORM_PARAMS;
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import project.issue.tracker.database.models.DBProject;
+import project.issue.tracker.utils.FORM_PARAMS;
 
 @WebServlet(urlPatterns = {"/changeProject.do"}, name = "ProjectChanger")
 public class ChangeProjectServlet extends HttpServlet {
