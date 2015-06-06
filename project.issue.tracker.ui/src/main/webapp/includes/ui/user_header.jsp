@@ -1,3 +1,4 @@
+<%@page import="project.issue.tracker.utils.Utils"%>
 <div>
     <nav class="navbar navbar-inverse " role="navigation">
         <div class="navbar-header">

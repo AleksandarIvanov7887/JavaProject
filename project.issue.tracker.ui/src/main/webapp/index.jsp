@@ -1,8 +1,8 @@
-<%@ page import="com.track.utils.Utils" %>
-<%@ page import="com.track.utils.ATTRIBUTES" %>
-<%@ page import="com.track.be.models.DBProject" %>
-<%@ page import="com.track.be.models.DBTask" %>
-<%@ page import="com.track.be.models.DBUser" %>
+<%@ page import="project.issue.tracker.utils.Utils" %>
+<%@ page import="project.issue.tracker.utils.ATTRIBUTES" %>
+<%@ page import="project.issue.tracker.database.models.DBProject" %>
+<%@ page import="project.issue.tracker.database.models.DBTask" %>
+<%@ page import="project.issue.tracker.database.models.DBUser" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
