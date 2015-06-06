@@ -20,6 +20,7 @@
   	<module>../project.issue.tracker.filter</module>
   	<module>../project.issue.tracker.listener</module>
   	<module>../project.issue.tracker.services</module>
+  	<module>../../../workspaceWeb/project.issue.tracker.ui</module>
   </modules>
   
   <dependencies>
