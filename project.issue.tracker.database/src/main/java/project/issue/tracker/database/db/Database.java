@@ -1,7 +1,6 @@
 package project.issue.tracker.database.db;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
@@ -15,135 +14,12 @@ import org.apache.cassandra.thrift.CqlResult;
 import org.apache.cassandra.thrift.CqlRow;
 import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.cassandra.utils.ByteBufferUtil;
-import org.apache.commons.pool.BasePoolableObjectFactory;
 import org.apache.commons.pool.ObjectPool;
 import org.apache.commons.pool.impl.StackObjectPool;
 import org.apache.thrift.TException;
-import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.transport.TFramedTransport;
-import org.apache.thrift.transport.TSocket;
-import org.apache.thrift.transport.TTransport;
 
 public final class Database { // ver: 3.3.6
 
-    static private final class CassandraFactory extends BasePoolableObjectFactory< Client> {
-
-        private int port;
-        private String host;
-
-        public CassandraFactory(final String host_, final int port_) {
-            this.host = host_;
-            this.port = port_;
-        }
-
-        @Override
-        public Client makeObject() throws Exception { // INPUT AND OUTPUT TRANSPORT IS ONE SINGLE OBJECT !
-            //System.out.println("MAKE");
-            TTransport transport = new TFramedTransport(new TSocket(host, port));
-            TProtocol protocol = new TBinaryProtocol(transport);
-            return new Client(protocol);
-        }
-
-        @Override
-        public void activateObject(Client client) throws Exception {
-            //System.out.println("ACTIVATE");
-            TTransport transport = client.getInputProtocol().getTransport();
-            transport.open();
-            super.activateObject(client);
-        }
-
-        @Override
-        public void passivateObject(Client client) throws Exception {
-            //System.out.println("PASSIVE");
-            TTransport transport = client.getInputProtocol().getTransport();
-            transport.flush();
-            transport.close();
-            super.passivateObject(client);
-        }
-
-        @Override
-        public void destroyObject(Client client) throws Exception {
-            //System.out.println("DESTROY");
-            TTransport transport = client.getInputProtocol().getTransport();
-            transport.flush();
-            transport.close();
-            super.destroyObject(client);
-        }
-    }
-
-    static private final class TreeMapCompare implements Comparator< String> {
-
-        char first, second;
-        int key1_length, key2_length;
-
-        public int compare(final String key1, final String key2) {
-            if (key1.charAt(0) != '#' && key2.charAt(0) == '#') {
-                return -1;
-            }
-            if (key2.charAt(0) != '#' && key1.charAt(0) == '#') {
-                return 1;
-            }
-            key1_length = key1.length();
-            key2_length = key2.length();
-            if (key1_length < key2_length) {
-                return -1;
-            } else if (key1_length > key2_length) {
-                return 1;
-            } else {
-                for (int i = 0; i < key1_length; ++i) {
-                    first = key1.charAt(i);
-                    second = key2.charAt(i);
-                    if (first == second) {
-                        continue;
-                    }
-                    if (first < second) {
-                        return -1;
-                    } else {
-                        return 1;
-                    }
-                }
-
-            }
-            return 0;
-        }
-    }
-
-    static public final class Pair {
-
-        private String first, second;
-
-        public Pair() {
-            this.first = null;
-            this.second = null;
-        }
-
-        public Pair(final String first_, final String second_) {
-            this.first = first_;
-            this.second = second_;
-        }
-
-        public final String getFirst() {
-            return this.first;
-        }
-
-        public final void setFirst(final String first_) {
-            this.first = first_;
-        }
-
-        public final String getSecond() {
-            return this.second;
-        }
-
-        public final void setSecond(final String second_) {
-            this.second = second_;
-        }
-
-        @Override
-        public String toString() {
-            return "Pair{" + "first=" + first + ", second=" + second + '}';
-        }
-    }
     static private ObjectPool<Client> cassandra_pool;
     private Client client;
 
@@ -159,7 +35,7 @@ public final class Database { // ver: 3.3.6
         final StringBuilder s_builder = new StringBuilder();
 
         if (Database.cassandra_pool == null) {
-            Database.cassandra_pool = new StackObjectPool<Client>(new CassandraFactory(host, port));
+            Database.cassandra_pool = new StackObjectPool<Client>(CassandraFactory.getInstance(host, port));
         }
 
         if (this.client == null) {
@@ -300,7 +176,7 @@ public final class Database { // ver: 3.3.6
         }
 
         rows = cql_result.getRows();
-        result = new TreeMap< String, Object>(new TreeMapCompare());
+        result = new TreeMap< String, Object>(TreeMapCompare.getInstance());
         try {
             for (CqlRow row : rows) {
                 value = null;
@@ -322,7 +198,7 @@ public final class Database { // ver: 3.3.6
                         } else {
                             working_map = (TreeMap< String, Object>) parent_map.get(column_name);
                             if (working_map == null) {
-                                working_map = new TreeMap< String, Object>(new TreeMapCompare());
+                                working_map = new TreeMap< String, Object>(TreeMapCompare.getInstance());
                                 parent_map.put(column_name, working_map);
                             }
                         }
@@ -585,7 +461,7 @@ public final class Database { // ver: 3.3.6
         }
 
         rows = cql_result.getRows();
-        result = new TreeMap< String, Object>(new TreeMapCompare());
+        result = new TreeMap< String, Object>(TreeMapCompare.getInstance());
         try {
             for (CqlRow row : rows) {
                 value = null;
@@ -610,7 +486,7 @@ public final class Database { // ver: 3.3.6
                         } else {
                             working_map = (TreeMap< String, Object>) parent_map.get(column_name);
                             if (working_map == null) {
-                                working_map = new TreeMap< String, Object>(new TreeMapCompare());
+                                working_map = new TreeMap< String, Object>(TreeMapCompare.getInstance());
                                 parent_map.put(column_name, working_map);
                             }
                         }

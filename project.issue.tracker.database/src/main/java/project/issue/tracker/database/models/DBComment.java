@@ -8,6 +8,7 @@ import java.util.TreeMap;
 
 import project.issue.tracker.database.db.Database;
 import project.issue.tracker.database.db.Fields;
+import project.issue.tracker.database.db.Pair;
 
 public class DBComment {
 
@@ -53,10 +54,10 @@ public class DBComment {
             this.id = db.insertWithReturnKey(Fields.TABLE_PROJECTS_TASKS, this.authorId, this.projectId, this.taskId, Fields.C_ALL_COMMENTS, "", "");
             db.delete(Fields.TABLE_PROJECTS_TASKS, false, this.projectId, this.taskId, Fields.C_ALL_COMMENTS, this.id, "");
 
-            List<Database.Pair> dataList = new ArrayList<Database.Pair>();
-            dataList.add(new Database.Pair(Fields.AUTHOR_ID, this.authorId));
-            dataList.add(new Database.Pair(Fields.DATE, this.date));
-            dataList.add(new Database.Pair(Fields.CONTENT_OLD, this.content));
+            List<Pair> dataList = new ArrayList<Pair>();
+            dataList.add(new Pair(Fields.AUTHOR_ID, this.authorId));
+            dataList.add(new Pair(Fields.DATE, this.date));
+            dataList.add(new Pair(Fields.CONTENT_OLD, this.content));
             db.insertWithKey(Fields.TABLE_PROJECTS_TASKS, dataList, this.projectId, this.taskId, Fields.C_COMMENTS, this.id, "");
 
         } catch (NullPointerException e) {

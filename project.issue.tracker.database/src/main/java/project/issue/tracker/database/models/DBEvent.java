@@ -7,6 +7,7 @@ import java.util.TreeMap;
 
 import project.issue.tracker.database.db.Database;
 import project.issue.tracker.database.db.Fields;
+import project.issue.tracker.database.db.Pair;
 
 public class DBEvent {
     public static final String TYPE_CHANGE_DATE = "0";
@@ -61,11 +62,11 @@ public class DBEvent {
             this.id = db.insertWithReturnKey(Fields.TABLE_EVENTS, this.taskId, this.projectId, this.taskId, "", "");
             db.delete(Fields.TABLE_EVENTS, false, this.projectId, this.taskId, this.id, "");
 
-            List<Database.Pair> dataList = new ArrayList<Database.Pair>();
-            dataList.add(new Database.Pair(Fields.TYPE, this.type));
-            dataList.add(new Database.Pair(Fields.AUTHOR_ID, this.authorId));
-            dataList.add(new Database.Pair(Fields.CONTENT_NEW, this.contentNew));
-            dataList.add(new Database.Pair(Fields.CONTENT_OLD, this.contentOld));
+            List<Pair> dataList = new ArrayList<Pair>();
+            dataList.add(new Pair(Fields.TYPE, this.type));
+            dataList.add(new Pair(Fields.AUTHOR_ID, this.authorId));
+            dataList.add(new Pair(Fields.CONTENT_NEW, this.contentNew));
+            dataList.add(new Pair(Fields.CONTENT_OLD, this.contentOld));
             db.insertWithKey(Fields.TABLE_EVENTS, dataList, this.projectId, this.taskId, this.id, "");
 
             db.insert(Fields.TABLE_EVENTS, this.id, this.authorId, this.projectId, this.taskId, ""); // put in userEventQueue - may have to change author.id

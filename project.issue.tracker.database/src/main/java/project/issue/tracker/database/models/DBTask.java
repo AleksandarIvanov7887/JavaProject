@@ -8,6 +8,7 @@ import java.util.TreeMap;
 
 import project.issue.tracker.database.db.Database;
 import project.issue.tracker.database.db.Fields;
+import project.issue.tracker.database.db.Pair;
 
 public class DBTask {
 
@@ -77,13 +78,13 @@ public class DBTask {
             this.id = db.insertWithReturnKey(Fields.TABLE_PROJECTS_TASKS, this.title , this.projectId, Fields.C_ALL_TASKS, "", "", "");
             db.delete(Fields.TABLE_PROJECTS_TASKS, false, this.projectId, Fields.C_ALL_TASKS, this.id, "", "");
 
-            List<Database.Pair> dataList = new ArrayList<Database.Pair>();
-            dataList.add(new Database.Pair(Fields.TITLE, this.title));
-            dataList.add(new Database.Pair(Fields.DESCRIPTION, this.description));
-            dataList.add(new Database.Pair(Fields.AUTHOR_ID, this.authorId));
-            dataList.add(new Database.Pair(Fields.DUE_DATE, this.dueDate));
-            dataList.add(new Database.Pair(Fields.ASSIGNEE, this.assigneeId));
-            dataList.add(new Database.Pair(Fields.STATUS, DBTask.STATUS_OPEN));
+            List<Pair> dataList = new ArrayList<Pair>();
+            dataList.add(new Pair(Fields.TITLE, this.title));
+            dataList.add(new Pair(Fields.DESCRIPTION, this.description));
+            dataList.add(new Pair(Fields.AUTHOR_ID, this.authorId));
+            dataList.add(new Pair(Fields.DUE_DATE, this.dueDate));
+            dataList.add(new Pair(Fields.ASSIGNEE, this.assigneeId));
+            dataList.add(new Pair(Fields.STATUS, DBTask.STATUS_OPEN));
             db.insertWithKey(Fields.TABLE_PROJECTS_TASKS, dataList, this.projectId, this.id, "", "", "");
 
         } catch (NullPointerException e) {
@@ -196,12 +197,12 @@ public class DBTask {
             String key = db.insertWithReturnKey(Fields.TABLE_PROJECTS_TASKS, this.projectId, this.id, Fields.C_ALL_CHANGES, "", "");
             db.delete(Fields.TABLE_PROJECTS_TASKS,false, this.projectId, key, Fields.C_ALL_CHANGES, key, "");
 
-            List<Database.Pair> dataList = new ArrayList<Database.Pair>();
-            dataList.add(new Database.Pair(Fields.TYPE, type));
-            dataList.add(new Database.Pair(Fields.AUTHOR_ID, authorId));
-            dataList.add(new Database.Pair(Fields.AUTHOR_ID, authorId));
-            dataList.add(new Database.Pair(Fields.TASK_ASSIGNEE_ID, assigneeId));
-            dataList.add(new Database.Pair(Fields.CONTENT_OLD, content));
+            List<Pair> dataList = new ArrayList<Pair>();
+            dataList.add(new Pair(Fields.TYPE, type));
+            dataList.add(new Pair(Fields.AUTHOR_ID, authorId));
+            dataList.add(new Pair(Fields.AUTHOR_ID, authorId));
+            dataList.add(new Pair(Fields.TASK_ASSIGNEE_ID, assigneeId));
+            dataList.add(new Pair(Fields.CONTENT_OLD, content));
             db.insertWithKey(Fields.TABLE_USER_DATA,dataList, this.projectId, this.id, Fields.C_CHANGES, key, "");
         } catch (NullPointerException e) {
             return false;

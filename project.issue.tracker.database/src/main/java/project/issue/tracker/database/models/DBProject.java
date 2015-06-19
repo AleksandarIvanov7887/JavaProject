@@ -8,6 +8,7 @@ import java.util.TreeMap;
 
 import project.issue.tracker.database.db.Database;
 import project.issue.tracker.database.db.Fields;
+import project.issue.tracker.database.db.Pair;
 
 public class DBProject {
 
@@ -51,9 +52,9 @@ public class DBProject {
             this.id = db.insertWithReturnKey(Fields.TABLE_ALL_PROJECTS, this.name, "");
             db.delete(Fields.TABLE_ALL_PROJECTS, false, this.id);
 
-            List<Database.Pair> dataList = new ArrayList<Database.Pair>();
-            dataList.add(new Database.Pair(Fields.NAME, this.name));
-            dataList.add(new Database.Pair(Fields.DESCRIPTION, this.description));
+            List<Pair> dataList = new ArrayList<Pair>();
+            dataList.add(new Pair(Fields.NAME, this.name));
+            dataList.add(new Pair(Fields.DESCRIPTION, this.description));
             db.insertWithKey(Fields.TABLE_PROJECT_DATA, dataList, this.id, "");
 
         } catch (NullPointerException e) {

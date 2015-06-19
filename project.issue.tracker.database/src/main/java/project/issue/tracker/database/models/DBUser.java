@@ -8,6 +8,7 @@ import java.util.TreeMap;
 
 import project.issue.tracker.database.db.Database;
 import project.issue.tracker.database.db.Fields;
+import project.issue.tracker.database.db.Pair;
 import project.issue.tracker.database.utils.RZSecurity;
 
 public class DBUser {
@@ -86,18 +87,18 @@ public class DBUser {
             this.id = db.insertWithReturnKey(Fields.TABLE_ALL_USERS, this.userName, "");
             db.delete(Fields.TABLE_ALL_USERS, false, this.id);
 
-            List<Database.Pair> authenticationDataList = new ArrayList<Database.Pair>();
-            authenticationDataList.add(new Database.Pair(Fields.PASSWORD, this.password));
-            authenticationDataList.add(new Database.Pair(Fields.PASSWORD_SALT, this.passwordSalt));
-            authenticationDataList.add(new Database.Pair(Fields.USER_ID, this.id));
+            List<Pair> authenticationDataList = new ArrayList<Pair>();
+            authenticationDataList.add(new Pair(Fields.PASSWORD, this.password));
+            authenticationDataList.add(new Pair(Fields.PASSWORD_SALT, this.passwordSalt));
+            authenticationDataList.add(new Pair(Fields.USER_ID, this.id));
             db.insertWithKey(Fields.TABLE_USER_LOGIN_DATA, authenticationDataList, this.userName, "");
 
-            List<Database.Pair> dataList = new ArrayList<Database.Pair>();
-            dataList.add(new Database.Pair(Fields.USERNAME, this.userName));
-            dataList.add(new Database.Pair(Fields.NAME, this.name));
-            dataList.add(new Database.Pair(Fields.EMAIL, this.email));
-            dataList.add(new Database.Pair(Fields.TYPE, this.type));
-            dataList.add(new Database.Pair(Fields.ITEMS_PER_PAGE, this.itemsPerPage));
+            List<Pair> dataList = new ArrayList<Pair>();
+            dataList.add(new Pair(Fields.USERNAME, this.userName));
+            dataList.add(new Pair(Fields.NAME, this.name));
+            dataList.add(new Pair(Fields.EMAIL, this.email));
+            dataList.add(new Pair(Fields.TYPE, this.type));
+            dataList.add(new Pair(Fields.ITEMS_PER_PAGE, this.itemsPerPage));
             db.insertWithKey(Fields.TABLE_USER_DATA, dataList, this.id, "", "");
 
         } catch (NullPointerException e) {
@@ -109,8 +110,8 @@ public class DBUser {
         return true;
     }
 
-    public static List<Database.Pair> getAllUsersByNames() {
-        List<Database.Pair> list = new ArrayList<Database.Pair>();
+    public static List<Pair> getAllUsersByNames() {
+        List<Pair> list = new ArrayList<Pair>();
         final Database db = new Database();
         try {
             TreeMap<String, Object> userMap = db.select(Fields.TABLE_USER_DATA, "", "", "");
@@ -122,7 +123,7 @@ public class DBUser {
                         TreeMap<String, Object> eventDataMap = (TreeMap<String, Object>) user.getValue();
                         String tempName = eventDataMap.get(Fields.NAME).toString();
 
-                        Database.Pair pair = new Database.Pair(tempId, tempName);
+                        Pair pair = new Pair(tempId, tempName);
                         list.add(pair);
 
                     } catch (NullPointerException e) {
@@ -404,9 +405,9 @@ public class DBUser {
 
         final Database db = new Database();
         try {
-            List<Database.Pair> authenticationDataList = new ArrayList<Database.Pair>();
-            authenticationDataList.add(new Database.Pair(Fields.PASSWORD, this.password));
-            authenticationDataList.add(new Database.Pair(Fields.PASSWORD_SALT, this.passwordSalt));
+            List<Pair> authenticationDataList = new ArrayList<Pair>();
+            authenticationDataList.add(new Pair(Fields.PASSWORD, this.password));
+            authenticationDataList.add(new Pair(Fields.PASSWORD_SALT, this.passwordSalt));
             db.insertWithKey(Fields.TABLE_USER_LOGIN_DATA, authenticationDataList, userName, "");
         } finally {
             db.close();
