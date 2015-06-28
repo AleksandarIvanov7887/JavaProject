@@ -17,7 +17,9 @@ import project.issue.tracker.utils.Utils;
 
 @WebServlet(urlPatterns = {"/searchProject.do"}, name = "ProjectSearch")
 public class ProjectSearchServlet extends HttpServlet {
-    @Override
+	private static final long serialVersionUID = 1L;
+
+	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String projectName = req.getParameter(FORM_PARAMS.LIST_PROJECT.PROJECT_NAME);
 

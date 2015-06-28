@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(urlPatterns = {"/deleteUser.do"}, name = "UserDeleter")
 public class DeleteUserServlet extends HttpServlet {
-    @Override
+	private static final long serialVersionUID = 1L;
+
+	@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //String userID = req.getParameter(FORM_PARAMS.DELETE_USER.ID);
     }

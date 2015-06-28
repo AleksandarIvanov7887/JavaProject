@@ -17,7 +17,9 @@ import project.issue.tracker.utils.Utils;
 
 @WebServlet(urlPatterns = {"/searchUser.do"}, name = "userSearch")
 public class UserSearchServlet extends HttpServlet {
-    @Override
+	private static final long serialVersionUID = 1L;
+
+	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");
         String username = req.getParameter(FORM_PARAMS.LIST_USER.USERNAME);

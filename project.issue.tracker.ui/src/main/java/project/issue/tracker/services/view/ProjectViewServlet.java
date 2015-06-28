@@ -14,8 +14,9 @@ import project.issue.tracker.utils.FORM_PARAMS;
 
 @WebServlet(urlPatterns = {"/viewProject.do"}, name = "ProjectViewer")
 public class ProjectViewServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 
-    @Override
+	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");
 

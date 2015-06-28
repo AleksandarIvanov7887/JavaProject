@@ -19,7 +19,9 @@ import java.util.Date;
 
 @WebServlet(urlPatterns = {"/addComment.do"}, name = "TaskCommenter")
 public class AddCommentToTaskServlet extends HttpServlet {
-    @Override
+	private static final long serialVersionUID = 1L;
+
+	@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");
 

@@ -15,7 +15,9 @@ import project.issue.tracker.utils.FORM_PARAMS;
 
 @WebServlet( urlPatterns = {"/createProject.do"}, name = "projectCreator")
 public class CreateProjectServlet extends HttpServlet {
-    @Override
+	private static final long serialVersionUID = 1L;
+
+	@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");
 

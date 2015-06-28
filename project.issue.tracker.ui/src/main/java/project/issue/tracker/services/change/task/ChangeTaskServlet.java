@@ -19,7 +19,9 @@ import project.issue.tracker.utils.Utils;
 
 @WebServlet(urlPatterns = {"/changeTask.do"}, name = "TaskChanger")
 public class ChangeTaskServlet extends HttpServlet {
-    @Override
+	private static final long serialVersionUID = 1L;
+
+	@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");
 

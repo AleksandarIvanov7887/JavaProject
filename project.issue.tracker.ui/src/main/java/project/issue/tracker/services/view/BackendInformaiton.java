@@ -16,7 +16,9 @@ import project.issue.tracker.database.models.DBUser;
 
 @WebServlet(urlPatterns = {"/updateAutocomplete.do"}, name = "Autocomplete Updater")
 public class BackendInformaiton extends HttpServlet {
-    @Override
+	private static final long serialVersionUID = 1L;
+
+	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");
 

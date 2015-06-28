@@ -7,22 +7,22 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.bouncycastle.crypto.digests.RIPEMD160Digest;
+//import org.bouncycastle.crypto.digests.RIPEMD160Digest;
 import org.bouncycastle.util.encoders.Base64;
-import org.bouncycastle.util.encoders.Hex;
+//import org.bouncycastle.util.encoders.Hex;
 
 public class RZSecurity {
     
     private static final String SALT1 = "=Ю?яg0_c>na=_Xdg!rwa/bbXH6Fo| FЧ-@Uю*E%3=Ю?яg0_c>na=_Xdg!rwa/bbXJkf^^&N>AK$j+]JE^h+)л6C=^";
     private static final SecureRandom random = new SecureRandom();
 
-    private static byte[] hashRipeMD160(byte[] data) {
-        RIPEMD160Digest d = new RIPEMD160Digest();
-        d.update(data, 0, data.length);
-        byte[] o = new byte[d.getDigestSize()];
-        d.doFinal(o, 0);
-        return Hex.encode(o);
-    }
+//    private static byte[] hashRipeMD160(byte[] data) {
+//        RIPEMD160Digest d = new RIPEMD160Digest();
+//        d.update(data, 0, data.length);
+//        byte[] o = new byte[d.getDigestSize()];
+//        d.doFinal(o, 0);
+//        return Hex.encode(o);
+//    }
 
     private static byte[] hashSHA256(byte[] data) {
         try {

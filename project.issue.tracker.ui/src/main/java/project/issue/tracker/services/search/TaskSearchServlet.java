@@ -20,7 +20,9 @@ import project.issue.tracker.utils.Utils;
 
 @WebServlet(urlPatterns = {"/searchTask.do"}, name = "taskSearch")
 public class TaskSearchServlet extends HttpServlet {
-    @Override
+	private static final long serialVersionUID = 1L;
+
+	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");
 

@@ -13,8 +13,9 @@ import project.issue.tracker.utils.FORM_PARAMS;
 
 @WebServlet(urlPatterns = {"/changeProject.do"}, name = "ProjectChanger")
 public class ChangeProjectServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 
-    @Override
+	@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter(FORM_PARAMS.CHANGE_PROJECT.ID);
         String name = req.getParameter(FORM_PARAMS.CHANGE_PROJECT.NAME);

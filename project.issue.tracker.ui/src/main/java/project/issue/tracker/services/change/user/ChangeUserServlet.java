@@ -16,7 +16,9 @@ import project.issue.tracker.utils.FORM_PARAMS;
 
 @WebServlet( urlPatterns = {"/changeUser.do"}, name = "UserChanger")
 public class ChangeUserServlet extends HttpServlet {
-    @Override
+	private static final long serialVersionUID = 1L;
+
+	@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");
 

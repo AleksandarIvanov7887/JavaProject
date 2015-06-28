@@ -14,7 +14,9 @@ import project.issue.tracker.utils.ATTRIBUTES;
 
 @WebServlet(urlPatterns = {"/viewProfile.do"}, name = "ProfileViewer")
 public class ViewProfileServlet extends HttpServlet {
-    @Override
+	private static final long serialVersionUID = 1L;
+
+	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");
 

@@ -19,7 +19,9 @@ import project.issue.tracker.utils.FORM_PARAMS;
 
 @WebServlet(name = "CreateUser", urlPatterns = {"/createUser.do"})
 public class CreateUserServlet extends HttpServlet {
-    @Override
+	private static final long serialVersionUID = 1L;
+
+	@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");
 
