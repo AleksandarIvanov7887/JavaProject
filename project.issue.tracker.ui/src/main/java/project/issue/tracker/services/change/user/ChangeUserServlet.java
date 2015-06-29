@@ -9,14 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import net.sf.json.JSONObject;
-import project.issue.tracker.database.models.DBUser;
+import project.issue.tracker.database.db.QuerySelector;
+import project.issue.tracker.database.models.User;
 import project.issue.tracker.utils.ATTRIBUTES;
 import project.issue.tracker.utils.FORM_PARAMS;
 
 @WebServlet( urlPatterns = {"/changeUser.do"}, name = "UserChanger")
 public class ChangeUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String REG_EX_USERNAME_PASS = "^[a-zA-Z_0-9\\.\\-,:]{1,20}$";
+	private static final String REG_EX_NAME = "^[a-zA-Z \\-]{1,50}$";
 
 	@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,9 +34,9 @@ public class ChangeUserServlet extends HttpServlet {
 
         PrintWriter out = resp.getWriter();
 
-        if (!oldPasword.matches("^[a-zA-Z_0-9\\.\\-,:]{1,20}$") ||
-                !newPassword.matches("^[a-zA-Z_0-9\\.\\-,:]{1,20}$") ||
-                !fullName.matches("^[a-zA-Z \\-]{1,50}$") ||
+        if (!oldPasword.matches(REG_EX_USERNAME_PASS) ||
+                !newPassword.matches(REG_EX_USERNAME_PASS) ||
+                !fullName.matches(REG_EX_NAME) ||
                 !(itemsPerPage.charAt(0) >= '1' && itemsPerPage.charAt(0) <= '6' && itemsPerPage.charAt(1) == '0' && itemsPerPage.length() == 2)) {
 
             out.print("{\"error\":\"Bad input.\"}");
@@ -39,34 +44,37 @@ public class ChangeUserServlet extends HttpServlet {
             return;
         }
 
+        
+        QuerySelector selector = QuerySelector.getInstance();
+        User currentUser = (User) req.getSession().getAttribute(ATTRIBUTES.USER_BEAN);
 
-        DBUser userBean = (DBUser) req.getSession().getAttribute(ATTRIBUTES.USER_BEAN);
-
-        DBUser currUser = new DBUser(userBean.getId());
-
-        if (!currUser.isCorrectPassword(oldPasword)) {
+        if (BCrypt.checkpw(oldPasword, currentUser.getPassword())) {
             out.print("{\"error\":\"Bad password. Old password was not correct.\"}");
             out.flush();
             return;
         }
-
-        if(!(currUser.updateItemsPerPage(itemsPerPage) && currUser.updateName(fullName) && currUser.updatePassword(newPassword))) {
-            out.print("{\"error\":\"User could not be fully updated.\"}");
+        try {
+	        currentUser.setFullName(fullName);
+	        currentUser.setPassword(newPassword);
+	        currentUser.setItemsPerPage(Integer.valueOf(itemsPerPage));
+	        
+	        selector.persistObject(currentUser);
+        } catch (Exception exc) {
+        	exc.printStackTrace();
+        	out.print("{\"error\":\"User could not be fully updated.\"}");
             out.flush();
             return;
         }
 
-        userBean = new DBUser(userBean.getId());
-
         req.getSession().removeAttribute(ATTRIBUTES.USER_BEAN);
-        req.getSession().setAttribute(ATTRIBUTES.USER_BEAN, userBean);
+        req.getSession().setAttribute(ATTRIBUTES.USER_BEAN, currentUser);
 
         JSONObject jsonResponse = new JSONObject();
-        jsonResponse.put("username", currUser.getUserName());
-        jsonResponse.put("full_name", currUser.getName());
-        jsonResponse.put("mail", currUser.getEmail());
-        jsonResponse.put("utype", currUser.isAdmin() ? "Administrator" : "User");
-        jsonResponse.put("itemspp", currUser.getItemsPerPage());
+        jsonResponse.put("username", currentUser.getUserName());
+        jsonResponse.put("full_name", currentUser.getFullName());
+        jsonResponse.put("mail", currentUser.getEmail());
+        jsonResponse.put("utype", currentUser.getRole());
+        jsonResponse.put("itemspp", currentUser.getItemsPerPage());
 
         resp.getWriter().print(jsonResponse.toString());
         resp.getWriter().flush();

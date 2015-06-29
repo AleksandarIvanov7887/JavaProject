@@ -9,12 +9,12 @@ import javax.persistence.*;
 @Entity
 public class Task {
 
-	private static final String STATUS_OPEN = "1";
-    private static final String STATUS_IN_PROGESS = "2";
-    private static final String STATUS_COMPLETED = "3";
+	public static final String STATUS_OPEN = "1";
+    public static final String STATUS_IN_PROGESS = "2";
+    public static final String STATUS_COMPLETED = "3";
     
-    private static final String IMPORTANT = "1";
-    private static final String NOT_IMPORTANT = "0";
+    public static final String IMPORTANT = "1";
+    public static final String NOT_IMPORTANT = "0";
 	
     @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +25,9 @@ public class Task {
     private Project project;
     
     private String title;
+    
+    @Column(name = "important")
+    private boolean important;
     
     private String description;
     
@@ -139,5 +142,15 @@ public class Task {
 	public void addComment(Comment comment) {
 		this.comments.add(comment);
 	}
+
+	public boolean isImportant() {
+		return important;
+	}
+
+	public void setImportant(boolean important) {
+		this.important = important;
+	}
+	
+	
 	
 }

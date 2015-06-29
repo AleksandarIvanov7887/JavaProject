@@ -11,10 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import project.issue.tracker.database.models.DBComment;
-import project.issue.tracker.database.models.DBProject;
-import project.issue.tracker.database.models.DBTask;
-import project.issue.tracker.database.models.DBUser;
+import project.issue.tracker.database.db.QuerySelector;
+import project.issue.tracker.database.models.Comment;
+import project.issue.tracker.database.models.Task;
 import project.issue.tracker.utils.FORM_PARAMS;
 
 @WebServlet(urlPatterns = {"/viewTask.do"}, name = "TaskViewer")
@@ -28,42 +27,33 @@ public class TaskViewServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
 
         String taskID = req.getParameter(FORM_PARAMS.VIEW_TASK.ID);
-        String projectName = req.getParameter(FORM_PARAMS.VIEW_TASK.PROJECT_NAME).toLowerCase();
-
-        DBProject project = null;
-        for (DBProject p : DBProject.getAllProjects()) {
-            if (p.getName().toLowerCase().equals(projectName)) {
-                project = p;
-            }
-        }
-        if (null == project) {
-            out.print("\"error\":\"no such project\"");
+        QuerySelector selector = QuerySelector.getInstance();
+        Task task = selector.getTaskById(taskID);
+        
+        if (task == null || task.getProject() == null) {
+            out.print("\"error\":\"no such project or task\"");
             out.flush();
             return;
-        }
-        DBTask task = new DBTask(taskID, project.getId());
-        if (null == task.getTitle()) {
-            out.print("{\"error\":\"no such task refresh list plase\"}");
         }
 
         JSONObject jsonResponse = new JSONObject();
         JSONObject taskObject = new JSONObject();
 
         taskObject.put("id", task.getId());
-        taskObject.put("project", project.getName());
+        taskObject.put("project", task.getProject().getProjectName());
         taskObject.put("title", task.getTitle());
         taskObject.put("desc", task.getDescription());
         taskObject.put("ddate", task.getDueDate());
-        taskObject.put("assignee", new DBUser(task.getAssigneeId()).getName());
+        taskObject.put("assignee", task.getAssignee().getFullName());
         taskObject.put("status", task.getStatus());
 
         jsonResponse.put("task", taskObject);
 
         JSONArray comments = new JSONArray();
-        for (DBComment c : new DBComment(project.getId(), task.getId()).getAllComments()) {
+        for (Comment c : task.getComments()) {
             JSONObject comment = new JSONObject();
 
-            comment.put("from", new DBUser(c.getAuthorId()).getName());
+            comment.put("from", c.getAuthor().getFullName());
             comment.put("date", c.getDate());
             comment.put("text", c.getContent());
 

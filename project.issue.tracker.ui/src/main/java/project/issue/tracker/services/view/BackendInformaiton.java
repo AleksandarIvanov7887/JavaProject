@@ -10,9 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
-import project.issue.tracker.database.models.DBProject;
-import project.issue.tracker.database.models.DBTask;
-import project.issue.tracker.database.models.DBUser;
+import project.issue.tracker.database.db.QuerySelector;
+import project.issue.tracker.database.models.Project;
+import project.issue.tracker.database.models.Task;
+import project.issue.tracker.database.models.User;
 
 @WebServlet(urlPatterns = {"/updateAutocomplete.do"}, name = "Autocomplete Updater")
 public class BackendInformaiton extends HttpServlet {
@@ -26,18 +27,20 @@ public class BackendInformaiton extends HttpServlet {
         JSONObject projects = new JSONObject();
         JSONObject tasks = new JSONObject();
         JSONObject users = new JSONObject();
+        
+        QuerySelector selector = QuerySelector.getInstance();
 
-        List<DBProject> projectList = DBProject.getAllProjects();
+        List<Project> projectList = selector.getAllProjects();
         for (int i = 0; i < projectList.size(); i++) {
-            projects.put("" + i, projectList.get(i).getName());
+            projects.put("" + i, projectList.get(i).getProjectName());
         }
-        List<DBTask> taskList = DBTask.getAllTasks();
+        List<Task> taskList = selector.getAllTasks();
         for (int i = 0; i < taskList.size(); i++) {
             tasks.put("" + i, taskList.get(i).getTitle());
         }
-        List<DBUser> userList = DBUser.getAllUsers();
+        List<User> userList = selector.getAllUsers();
         for (int i = 0; i < userList.size(); i++) {
-            users.put("" + i, userList.get(i).getName());
+            users.put("" + i, userList.get(i).getFullName());
         }
 
         responseJSON.put("projects", projects);

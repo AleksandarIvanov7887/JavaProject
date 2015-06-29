@@ -4,17 +4,12 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import project.issue.tracker.database.db.InitDB;
 import project.issue.tracker.database.db.event.EventRunnable;
 import project.issue.tracker.database.db.event.EventSystem;
 
 @WebListener(value = "App initilization event listener")
 public class DummyContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
-        if (Boolean.parseBoolean(sce.getServletContext().getInitParameter("initializeDB"))) {
-            InitDB.start();
-        }
-
         String hour = sce.getServletContext().getInitParameter("update.hour");
         String minute = sce.getServletContext().getInitParameter("update.minute");
 

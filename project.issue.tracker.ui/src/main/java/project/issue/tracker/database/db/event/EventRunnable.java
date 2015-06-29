@@ -3,9 +3,7 @@ package project.issue.tracker.database.db.event;
 import java.util.Calendar;
 import java.util.List;
 
-import project.issue.tracker.database.models.DBEvent;
-import project.issue.tracker.database.models.DBTask;
-import project.issue.tracker.database.models.DBUser;
+//import project.issue.tracker.database.models.DBEvent;
 import project.issue.tracker.database.utils.MailSystem;
 
 public class EventRunnable implements Runnable {
@@ -32,16 +30,16 @@ public class EventRunnable implements Runnable {
             }
 
             //send emails to users
-            List<DBEvent> eventList = DBEvent.getAllWaitingEvents();
-            for (DBEvent event : eventList) {
-                DBTask task = new DBTask(event.getTaskId(), event.getProjectId());
-                DBUser user = new DBUser(task.getAssigneeId());
-                String email = user.getEmail();
-
-                MailSystem.sendMail(email, event.toString());
-
-                event.deleteFromWaiting();
-            }
+//            List<DBEvent> eventList = DBEvent.getAllWaitingEvents();
+//            for (DBEvent event : eventList) {
+//                DBTask task = new DBTask(event.getTaskId(), event.getProjectId());
+//                DBUser user = new DBUser(task.getAssigneeId());
+//                String email = user.getEmail();
+//
+//                MailSystem.sendMail(email, event.toString());
+//
+//                event.deleteFromWaiting();
+//            }
 
         }
     }

@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import project.issue.tracker.database.models.DBProject;
+import project.issue.tracker.database.db.QuerySelector;
+import project.issue.tracker.database.models.Project;
 import project.issue.tracker.utils.FORM_PARAMS;
 
 @WebServlet(urlPatterns = {"/changeProject.do"}, name = "ProjectChanger")
@@ -21,11 +22,19 @@ public class ChangeProjectServlet extends HttpServlet {
         String name = req.getParameter(FORM_PARAMS.CHANGE_PROJECT.NAME);
         String desc = req.getParameter(FORM_PARAMS.CHANGE_PROJECT.DESCRIPTION);
 
-        DBProject project = new DBProject(id);
-        project.updateName(name);
-        project.updateDescription(desc);
-
-        resp.getWriter().print("{\"success\":\" OK\"}");
-        resp.getWriter().flush();
+        QuerySelector selector = QuerySelector.getInstance();
+        
+        Project project = selector.getProjectById(id);
+        project.setProjectName(name);
+        project.setDescription(desc);
+        try {
+        	selector.persistObject(project);
+        	resp.getWriter().print("{\"success\":\" OK\"}");
+        } catch (Exception exc) {
+        	resp.getWriter().print("{\"error\":\" Project not saved!\"}");
+            resp.getWriter().flush();
+        } finally {
+        	resp.getWriter().flush();
+        }
     }
 }

@@ -1,6 +1,6 @@
 package project.issue.tracker.utils;
 
-import project.issue.tracker.database.models.DBUser;
+import project.issue.tracker.database.models.User;
 
 import org.apache.commons.validator.GenericValidator;
 
@@ -15,7 +15,7 @@ public class Utils {
     }
 
     public static boolean isAdmin(HttpServletRequest request) {
-        return isLoggedIn(request) && ((DBUser) request.getSession(false).getAttribute(ATTRIBUTES.USER_BEAN)).isAdmin();
+        return isLoggedIn(request) && ((User) request.getSession(false).getAttribute(ATTRIBUTES.USER_BEAN)).getRole().equals("Administrator");
     }
 
     public static boolean isNull(String s) {

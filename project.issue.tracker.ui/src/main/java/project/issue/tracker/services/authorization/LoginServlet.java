@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import project.issue.tracker.database.models.DBUser;
+import project.issue.tracker.database.models.User;
 import project.issue.tracker.utils.ATTRIBUTES;
 
 import java.io.IOException;
@@ -21,14 +21,14 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");
 
-        DBUser userBean = (DBUser) req.getSession(false).getAttribute(ATTRIBUTES.USER_BEAN);
+        User currentUser = (User) req.getSession(false).getAttribute(ATTRIBUTES.USER_BEAN);
         JSONObject responseJSON = new JSONObject();
-
-        responseJSON.put("username", userBean.getUserName());
-        responseJSON.put("full_name", userBean.getName());
-        responseJSON.put("mail", userBean.getEmail());
-        responseJSON.put("utype", userBean.isAdmin() ? "Administrator" : "User");
-        responseJSON.put("itemspp", userBean.getItemsPerPage());
+        
+        responseJSON.put("username", currentUser.getUserName());
+        responseJSON.put("full_name", currentUser.getFullName());
+        responseJSON.put("mail", currentUser.getEmail());
+        responseJSON.put("utype", currentUser.getRole());
+        responseJSON.put("itemspp", currentUser.getItemsPerPage());
         responseJSON.put("application_context", req.getServletContext().getContextPath());
 
         resp.getWriter().print(responseJSON.toString());

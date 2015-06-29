@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
-import project.issue.tracker.database.models.DBUser;
+import project.issue.tracker.database.db.QuerySelector;
+import project.issue.tracker.database.models.User;
 import project.issue.tracker.utils.FORM_PARAMS;
 import project.issue.tracker.utils.Utils;
 
@@ -22,7 +23,8 @@ public class UserViewServlet extends HttpServlet {
         resp.setContentType("text/json");
 
         String userID = req.getParameter(FORM_PARAMS.VIEW_USER.ID);
-        DBUser wantedUser = new DBUser(userID);
+        QuerySelector selector = QuerySelector.getInstance();
+        User wantedUser = selector.getUserById(userID);
 
         JSONObject jsonResponse = new JSONObject();
         if (Utils.isNull(wantedUser.getUserName())) {
@@ -31,9 +33,9 @@ public class UserViewServlet extends HttpServlet {
 
         jsonResponse.put("id", wantedUser.getId());
         jsonResponse.put("username", wantedUser.getUserName());
-        jsonResponse.put("full_name", wantedUser.getName());
+        jsonResponse.put("full_name", wantedUser.getFullName());
         jsonResponse.put("mail", wantedUser.getEmail());
-        jsonResponse.put("utype", wantedUser.isAdmin() ? "Administrator" : "User");
+        jsonResponse.put("utype", wantedUser.getRole());
 
         resp.getWriter().print(jsonResponse.toString());
         resp.getWriter().flush();

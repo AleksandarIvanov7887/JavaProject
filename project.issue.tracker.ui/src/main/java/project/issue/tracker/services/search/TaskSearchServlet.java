@@ -11,9 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import project.issue.tracker.database.models.DBProject;
-import project.issue.tracker.database.models.DBTask;
-import project.issue.tracker.database.models.DBUser;
+import project.issue.tracker.database.db.QuerySelector;
+import project.issue.tracker.database.models.Project;
+import project.issue.tracker.database.models.Task;
+import project.issue.tracker.database.models.User;
 import project.issue.tracker.utils.ATTRIBUTES;
 import project.issue.tracker.utils.FORM_PARAMS;
 import project.issue.tracker.utils.Utils;
@@ -31,11 +32,13 @@ public class TaskSearchServlet extends HttpServlet {
         String assignee = req.getParameter(FORM_PARAMS.LIST_TASK.ASSIGNEE);
         String status = req.getParameter(FORM_PARAMS.LIST_TASK.STATUS);
 
-        DBUser userBean = (DBUser) req.getSession().getAttribute(ATTRIBUTES.USER_BEAN);
+        User currentUser = (User) req.getSession().getAttribute(ATTRIBUTES.USER_BEAN);
 
         PrintWriter out = resp.getWriter();
         JSONObject responseJSON = new JSONObject();
         JSONArray tasksArray = new JSONArray();
+        
+        QuerySelector selector = QuerySelector.getInstance();
 
         if (Utils.isNull(projectName) && Utils.isNull(taskName) && Utils.isNull(assignee) && Utils.isNull(status)) {
             if (!Utils.isAdmin(req)) {
@@ -43,15 +46,16 @@ public class TaskSearchServlet extends HttpServlet {
             }
             responseJSON.put("important", "true");
 
-            for (DBTask task : userBean.getAllImportantTasks()) {
-                DBProject project = new DBProject(task.getProjectId());
-                DBUser user = new DBUser(task.getAssigneeId());
+            for (Task task : currentUser.getAssignedTasks()) {
+            	
+            	Project project = task.getProject();
+                User user = task.getAssignee();
                 JSONObject dummy = new JSONObject();
 
                 dummy.put("tID", task.getId());
                 dummy.put("tName", task.getTitle());
-                dummy.put("tProject", project.getName());
-                dummy.put("tAssignee", user.getName());
+                dummy.put("tProject", project.getProjectName());
+                dummy.put("tAssignee", user.getFullName());
                 dummy.put("tStatus", task.getStatus());
                 dummy.put("tDDate", task.getDueDate());
 
@@ -59,16 +63,16 @@ public class TaskSearchServlet extends HttpServlet {
             }
         } else {
 
-            for (DBTask task : DBTask.getAllTasks()) {
-                DBProject project = new DBProject(task.getProjectId());
-                DBUser user = new DBUser(task.getAssigneeId());
-                if (!Utils.isNull(projectName) && !project.getName().contains(projectName)) {
+            for (Task task : selector.getAllTasks()) {
+                Project project = task.getProject();
+                User user = task.getAssignee();
+                if (!Utils.isNull(projectName) && !project.getProjectName().contains(projectName)) {
                     continue;
                 }
                 if (!Utils.isNull(taskName) && !task.getTitle().contains(taskName)) {
                     continue;
                 }
-                if (!Utils.isNull(assignee) && !user.getName().contains(assignee)) {
+                if (!Utils.isNull(assignee) && !user.getFullName().contains(assignee)) {
                     continue;
                 }
                 if (!Utils.isNull(status) && !task.getStatus().contains(status)) {
@@ -79,10 +83,10 @@ public class TaskSearchServlet extends HttpServlet {
 
                 dummy.put("tID", task.getId());
                 dummy.put("tName", task.getTitle());
-                dummy.put("tProject", project.getName());
-                dummy.put("tAssignee", user.getName());
+                dummy.put("tProject", project.getProjectName());
+                dummy.put("tAssignee", user.getFullName());
                 dummy.put("tStatus", task.getStatus());
-                dummy.put("tDDate", task.getDueDate());
+                dummy.put("tDDate", task.getDueDate().toString());
 
                 tasksArray.add(dummy);
             }

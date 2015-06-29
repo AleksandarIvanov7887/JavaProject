@@ -12,7 +12,10 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import project.issue.tracker.database.models.DBUser;
+import org.mindrot.jbcrypt.BCrypt;
+
+import project.issue.tracker.database.db.QuerySelector;
+import project.issue.tracker.database.models.User;
 import project.issue.tracker.utils.ATTRIBUTES;
 import project.issue.tracker.utils.FORM_PARAMS;
 
@@ -33,22 +36,29 @@ public class LoginFilter implements Filter {
         String pass = request.getParameter(FORM_PARAMS.LOGIN.PASSWORD);
 
         if (au.equals(user) && ap.equals(pass)) {
-
-            servletRequest.getSession(true).setAttribute(ATTRIBUTES.USER_BEAN, new DBUser(null, ap, au, "1"));
+        	User userAdmin = new User();
+        	userAdmin.setUserName(au);
+        	userAdmin.setPassword(ap);
+            servletRequest.getSession(true).setAttribute(ATTRIBUTES.USER_BEAN, userAdmin);
             chain.doFilter(request, response);
         } else {
-            DBUser userBean = new DBUser(user, pass);
-            if (userBean.isLoginSuccsessful()) {
-                userBean.init();
-                servletRequest.getSession(true).setAttribute(ATTRIBUTES.USER_BEAN, userBean);
-
+        	User foundUser = isLoginSuccessful(user, pass);
+            if (foundUser != null) {
+                servletRequest.getSession(true).setAttribute(ATTRIBUTES.USER_BEAN, foundUser);
                 chain.doFilter(request, response);
             } else {
-                ((HttpServletResponse) response).sendRedirect(ctxt + "login.jsp");
+                ((HttpServletResponse) response).sendRedirect(ctxt + "/login.jsp");
             }
         }
     }
 
     public void destroy() {
+    }
+    
+    private User isLoginSuccessful(String username, String password) {
+    	QuerySelector selector = QuerySelector.getInstance();
+    	User foundUser = selector.getUsersByUName(username).get(0);
+    	String pass = foundUser.getPassword();
+    	return BCrypt.checkpw(password, pass) ? foundUser : null;
     }
 }

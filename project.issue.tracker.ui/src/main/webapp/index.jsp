@@ -1,8 +1,9 @@
+<%@page import="project.issue.tracker.database.db.QuerySelector"%>
 <%@ page import="project.issue.tracker.utils.Utils" %>
 <%@ page import="project.issue.tracker.utils.ATTRIBUTES" %>
-<%@ page import="project.issue.tracker.database.models.DBProject" %>
-<%@ page import="project.issue.tracker.database.models.DBTask" %>
-<%@ page import="project.issue.tracker.database.models.DBUser" %>
+<%@ page import="project.issue.tracker.database.models.Project" %>
+<%@ page import="project.issue.tracker.database.models.Task" %>
+<%@ page import="project.issue.tracker.database.models.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
@@ -685,22 +686,23 @@
                 <span class="text-primary"><script>document.write(new Date().getFullYear());</script> &copy DebugTracker</span>
                 <select id="project_names_collection" hidden="hidden">
                     <%
-                        for (DBProject p : DBProject.getAllProjects()) {
-                    %><option><%=p.getName()%></option><%
+                    	QuerySelector selector = QuerySelector.getInstance();
+                        for (Project p : selector.getAllProjects()) {
+                    %><option><%=p.getProjectName()%></option><%
                                 }
                     %>
                 </select>
                 <select id="task_names_collection" hidden="hidden">
                     <%
-                        for (DBTask t : DBTask.getAllTasks()) {
+                        for (Task t : selector.getAllTasks()) {
                     %><option><%=t.getTitle()%></option><%
                                 }
                     %>
                 </select>
                 <select id="user_names_collection" hidden="hidden">
                     <%
-                        for (DBUser u : DBUser.getAllUsers()) {
-                    %><option><%=u.getName()%></option><%
+                        for (User u : selector.getAllUsers()) {
+                    %><option><%=u.getFullName()%></option><%
                                 }
                     %>
                 </select>

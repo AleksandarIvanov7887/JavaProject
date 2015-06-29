@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import project.issue.tracker.database.models.DBProject;
+import project.issue.tracker.database.db.QuerySelector;
+import project.issue.tracker.database.models.Project;
 import project.issue.tracker.utils.FORM_PARAMS;
 import project.issue.tracker.utils.Utils;
 
@@ -28,20 +29,22 @@ public class ProjectSearchServlet extends HttpServlet {
         JSONObject responseJSON = new JSONObject();
         JSONArray projectsArray = new JSONArray();
 
-        for (DBProject project : DBProject.getAllProjects()) {
+        QuerySelector selector = QuerySelector.getInstance();
+        
+        for (Project project : selector.getAllProjects()) {
 
-            if (!Utils.isNull(projectName) && !project.getName().toLowerCase().contains(projectName.toLowerCase())) {
+            if (!Utils.isNull(projectName) && !project.getProjectName().toLowerCase().contains(projectName.toLowerCase())) {
                 continue;
             }
-                JSONObject dummy = new JSONObject();
+                JSONObject projects = new JSONObject();
 
-                dummy.put("pID", project.getId());
-                dummy.put("pName", project.getName());
-                dummy.put("pDesc", project.getDescription());
-                dummy.put("pUsers", "");
-                dummy.put("pTasks", "");
+                projects.put("pID", project.getId());
+                projects.put("pName", project.getProjectName());
+                projects.put("pDesc", project.getDescription());
+                projects.put("pUsers", "");
+                projects.put("pTasks", "");
 
-                projectsArray.add(dummy);
+                projectsArray.add(projects);
         }
 
         responseJSON.put("projects", projectsArray);

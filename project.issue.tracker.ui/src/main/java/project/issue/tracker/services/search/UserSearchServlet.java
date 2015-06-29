@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import project.issue.tracker.database.models.DBUser;
+import project.issue.tracker.database.db.QuerySelector;
+import project.issue.tracker.database.models.User;
 import project.issue.tracker.utils.FORM_PARAMS;
 import project.issue.tracker.utils.Utils;
 
@@ -30,9 +31,11 @@ public class UserSearchServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
         JSONObject responseJSON = new JSONObject();
         JSONArray usersArray = new JSONArray();
+        
+        QuerySelector selector = QuerySelector.getInstance();
 
-        for (DBUser user : DBUser.getAllUsers()) {
-            if (!Utils.isNull(username) && !user.getName().toLowerCase().contains(username)) {
+        for (User user : selector.getAllUsers()) {
+            if (!Utils.isNull(username) && !user.getFullName().toLowerCase().contains(username)) {
                 continue;
             }
 
@@ -40,23 +43,23 @@ public class UserSearchServlet extends HttpServlet {
                 continue;
             }
 
-            if (!Utils.isNull(fullName) && !user.getName().contains(fullName)) {
+            if (!Utils.isNull(fullName) && !user.getFullName().contains(fullName)) {
                 continue;
             }
-            String type = user.isAdmin() ? "Administrator" : "User";
+            String type = user.getRole();
             if (!Utils.isNull(userType) && !type.equals(userType)) {
                 continue;
             }
 
-            JSONObject dummy = new JSONObject();
+            JSONObject users = new JSONObject();
 
-            dummy.put("uID", user.getId());
-            dummy.put("uFullName", user.getName());
-            dummy.put("uUsername", user.getUserName());
-            dummy.put("uRole", user.isAdmin() ? "Administrator" : "User");
-            dummy.put("uEmail", user.getEmail());
+            users.put("uID", user.getId());
+            users.put("uFullName", user.getFullName());
+            users.put("uUsername", user.getUserName());
+            users.put("uRole", user.getRole());
+            users.put("uEmail", user.getEmail());
 
-            usersArray.add(dummy);
+            usersArray.add(users);
 
         }
 

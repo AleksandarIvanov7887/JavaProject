@@ -16,13 +16,6 @@
         <param-value>admin</param-value>
     </context-param>
 
-    <!--RUN ONCE ONLY TO INIT DB THEN CHANGE VALUE!=true-->
-    <!--if db is init old tables are dropped along with data stored-->
-    <context-param>
-        <param-name>initializeDB</param-name>
-        <param-value>false</param-value>
-    </context-param>
-    <!--RUN ONCE ONLY TO INIT DB THEN CHANGE VALUE TO != true-->
     <context-param>
         <param-name>update.hour</param-name>
         <param-value>6</param-value>

@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
-import project.issue.tracker.database.models.DBProject;
+import project.issue.tracker.database.db.QuerySelector;
+import project.issue.tracker.database.models.Project;
 import project.issue.tracker.utils.FORM_PARAMS;
 
 @WebServlet(urlPatterns = {"/viewProject.do"}, name = "ProjectViewer")
@@ -21,12 +22,12 @@ public class ProjectViewServlet extends HttpServlet {
         resp.setContentType("text/json");
 
         String projectId = req.getParameter(FORM_PARAMS.VIEW_PROJECT.ID);
-
-        DBProject project = new DBProject(projectId);
+        QuerySelector selector = QuerySelector.getInstance();
+        Project project = selector.getProjectById(projectId);
 
         JSONObject jsonResponse = new JSONObject();
         jsonResponse.put("id", project.getId());
-        jsonResponse.put("name", project.getName());
+        jsonResponse.put("name", project.getProjectName());
         jsonResponse.put("desc", project.getDescription());
 
         resp.getWriter().print(jsonResponse.toString());

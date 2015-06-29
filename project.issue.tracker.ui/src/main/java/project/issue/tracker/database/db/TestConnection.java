@@ -26,8 +26,14 @@ public class TestConnection {
 //		p.setDescription("IssueTracker");
 //		p.setProjectName("name");
 //		
-//		User u = new User();
-//		u.setUserName("sasheto");
+		User u = new User();
+		u.setUserName("ax");
+		u.setPassword("aA12345678");
+		u.setEmail("alexander120116@abv.bg");
+		u.setFullName("Aleksandar Ivanov");
+		u.setRole("Administrator");
+		
+		
 //		
 //		Task t = new Task();
 //		t.setTitle("issue");
@@ -36,11 +42,11 @@ public class TestConnection {
 //		u.getCreatedTasks().add(t);
 //		p.addTask(t);
 //		
-//		em.getTransaction().begin();
+		em.getTransaction().begin();
 //		em.persist(p);
-//		em.persist(u);
+		em.persist(u);
 //		em.persist(t);
-//		em.getTransaction().commit();
+		em.getTransaction().commit();
 
 //		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 //		CriteriaQuery<User> criteria = criteriaBuilder.createQuery(User.class);
@@ -52,9 +58,9 @@ public class TestConnection {
 //				markRoot.get(Mark_.getDeclaredSingularAttribute("username")),"sasheto"));
 //		User sasheto = em.createQuery(criteria).getResultList().get(0);
 		
-		final List<User> users = em.createQuery("SELECT u FROM User u").getResultList();
-		
-		System.out.println(users.get(0).getCreatedTasks().size());
+//		final List<User> users = em.createQuery("SELECT u FROM User u").getResultList();
+//		
+//		System.out.println(users.get(0).getCreatedTasks().size());
 	}
 
 }
