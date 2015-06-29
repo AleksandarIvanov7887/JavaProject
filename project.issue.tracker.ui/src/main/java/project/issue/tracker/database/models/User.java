@@ -7,13 +7,11 @@ import javax.persistence.*;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import project.issue.tracker.database.db.EntityManagerProvider;
-
 @Entity
 @Table(name = "user")
 public class User {
-	private static final String TYPE_NORMAL = "user";
-	private static final String TYPE_ADMIN = "admin";
+	public static final String TYPE_NORMAL = "user";
+	public static final String TYPE_ADMIN = "admin";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

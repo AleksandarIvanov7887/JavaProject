@@ -36,7 +36,7 @@ public class CreateUserServlet extends HttpServlet {
 		String itemsPerPage = req
 				.getParameter(FORM_PARAMS.CHANGE_USER.ITEMS_PER_PAGE);
 		String userType = req.getParameter(FORM_PARAMS.CREATE_USER.USER_TYPE)
-				.equals("User") ? "0" : "1";
+				.equals("User") ? User.TYPE_NORMAL : User.TYPE_ADMIN;
 
 		PrintWriter out = resp.getWriter();
 

@@ -2,6 +2,7 @@ package project.issue.tracker.services.change.task;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -15,9 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
+
 import project.issue.tracker.database.db.QuerySelector;
 import project.issue.tracker.database.models.Task;
 import project.issue.tracker.database.models.User;
+import project.issue.tracker.database.utils.MailSystem;
 //import project.issue.tracker.database.models.DBEvent;
 import project.issue.tracker.utils.ATTRIBUTES;
 import project.issue.tracker.utils.FORM_PARAMS;
@@ -32,7 +36,6 @@ public class ChangeTaskServlet extends HttpServlet {
         resp.setContentType("text/json");
 
         String taskID = req.getParameter(FORM_PARAMS.CHANGE_TASK.ID);
-        String projectName = req.getParameter(FORM_PARAMS.CHANGE_TASK.PROJECT_NAME);
         String taskDDate = req.getParameter(FORM_PARAMS.CHANGE_TASK.DUE_DATE);
         String taskAssignee = req.getParameter(FORM_PARAMS.CHANGE_TASK.ASSIGNEE);
         String taskStatus = req.getParameter(FORM_PARAMS.CHANGE_TASK.TASK_STATUS);
@@ -65,31 +68,33 @@ public class ChangeTaskServlet extends HttpServlet {
             }
         }
 
-//        if (!currTask.getStatus().equals(taskStatus) && userBean.getFullName().equals(currTaskAssignee.getFullName())) {
-//            DBEvent event = new DBEvent(DBEvent.TYPE_CHANGE_STATUS, taskID, project.getId(), currTask.getStatus(), userBean.getId(), taskStatus);
-//            if (taskStatus.equals("In Process")) {
-//                currTask.setStatus(Task.STATUS_IN_PROGESS);
-//            } else if (taskStatus.equals("Completed")) {
-//                currTask.setStatus(Task.STATUS_COMPLETED);;
-//            } else if (taskStatus.equals("Open")) {
-//                currTask.setStatus(Task.STATUS_OPEN);
-//            }
-//            event.save();
-//        }
-//        if (!currTask.getAssignee().getFullName().equals(targetedAssignee.getFullName())) {
-//            DBEvent event = new DBEvent(DBEvent.TYPE_CHANGE_ASSIGNEE, taskID, project.getId(), currTask.getAssigneeId(), userBean.getId(), targetedAssignee.getId());
-//            event.save();
-//            currTask.updateAssignie(targetedAssignee.getId());
-//        }
-//        
-//        SimpleDateFormat formatter = new SimpleDateFormat("EEEE, dd/MM/yyyy/hh:mm:ss");
-//		Date parsedDate = formatter.parse(taskDDate);
-//        if (!currTask.getDueDate().equals(parsedDate)) {
-//            DBEvent event = new DBEvent(DBEvent.TYPE_CHANGE_DATE, taskID, project.getId(), currTask.getDueDate(), userBean.getId(), taskDDate);
-//            event.save();
-//            currTask.updateDueDate(taskDDate);
-//        }
-
+        if (!currTask.getStatus().equals(taskStatus) && userBean.getFullName().equals(currTaskAssignee.getFullName())) {
+            if (taskStatus.equals("In Process")) {
+                currTask.setStatus(Task.STATUS_IN_PROGESS);
+            } else if (taskStatus.equals("Completed")) {
+                currTask.setStatus(Task.STATUS_COMPLETED);;
+            } else if (taskStatus.equals("Open")) {
+                currTask.setStatus(Task.STATUS_OPEN);
+            }
+            MailSystem.sendMailAboutChangedStatus(currTask);
+        }
+        if (!currTask.getAssignee().getFullName().equals(targetedAssignee.getFullName())) {
+            currTask.setAssignee(targetedAssignee);
+            MailSystem.sendMailAboutAssigneChange(currTask);
+        }
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("EEEE, dd/MM/yyyy/hh:mm:ss");
+		Date parsedDate = null;
+		try {
+			parsedDate = formatter.parse(taskDDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+        if (!currTask.getDueDate().equals(parsedDate)) {
+            currTask.setDueDate(parsedDate);
+            MailSystem.sendMailAboutNewDueDate(currTask);
+        }
+        selector.persistObject(currTask);
 
         out.print("{\"success\":\"Change accepted." + (taskCount >= 2 ? "Note that this user has 2 or more " +
                 "tasks assigned, that he is currently working on." : "") + "\"}");

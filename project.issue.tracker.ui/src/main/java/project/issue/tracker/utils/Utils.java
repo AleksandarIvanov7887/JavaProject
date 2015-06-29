@@ -15,7 +15,8 @@ public class Utils {
     }
 
     public static boolean isAdmin(HttpServletRequest request) {
-        return isLoggedIn(request) && ((User) request.getSession(false).getAttribute(ATTRIBUTES.USER_BEAN)).getRole().equals("Administrator");
+        return isLoggedIn(request) && 
+        		(User.TYPE_ADMIN).equals(((User) request.getSession(false).getAttribute(ATTRIBUTES.USER_BEAN)).getRole());
     }
 
     public static boolean isNull(String s) {

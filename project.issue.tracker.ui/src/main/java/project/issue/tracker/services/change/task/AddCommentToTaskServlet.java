@@ -11,13 +11,12 @@ import project.issue.tracker.database.models.Comment;
 //import project.issue.tracker.database.models.DBEvent;
 import project.issue.tracker.database.models.Task;
 import project.issue.tracker.database.models.User;
+import project.issue.tracker.database.utils.MailSystem;
 import project.issue.tracker.utils.ATTRIBUTES;
 import project.issue.tracker.utils.FORM_PARAMS;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 @WebServlet(urlPatterns = {"/addComment.do"}, name = "TaskCommenter")
 public class AddCommentToTaskServlet extends HttpServlet {
@@ -29,9 +28,8 @@ public class AddCommentToTaskServlet extends HttpServlet {
 
         String taskID = req.getParameter(FORM_PARAMS.ADD_COMMENT.TASK_ID);
         String comment = req.getParameter(FORM_PARAMS.ADD_COMMENT.COMMENT);
-        String project_name = req.getParameter(FORM_PARAMS.ADD_COMMENT.PROJECT_NAME);
 
-        User userBean = (User) req.getSession().getAttribute(ATTRIBUTES.USER_BEAN);
+        User currentUser = (User) req.getSession().getAttribute(ATTRIBUTES.USER_BEAN);
 
         QuerySelector selector = QuerySelector.getInstance();
         
@@ -43,16 +41,15 @@ public class AddCommentToTaskServlet extends HttpServlet {
         }
         try {
         	Comment newComment = new Comment();
-        	newComment.setAuthor(userBean);
+        	newComment.setAuthor(currentUser);
         	newComment.setContent(comment);
         	newComment.setDate(new Date());
         	newComment.setTask(task);
         	
         	selector.persistObject(newComment);
-        	
-//            resp.getWriter().print("{\"success\":\"comment added\"}");
-//            DBEvent event = new DBEvent(DBEvent.TYPE_ADD_COMMENT, taskID, project.getId(), "", userBean.getId(), comment);
-//            event.save();
+            resp.getWriter().print("{\"success\":\"comment added\"}");
+            
+            MailSystem.sendMailAboutComment(task, currentUser, comment);
             
         } catch (Exception e) {
         	e.printStackTrace();
