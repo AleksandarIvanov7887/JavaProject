@@ -47,7 +47,7 @@ public class UserSearchServlet extends HttpServlet {
                 continue;
             }
             String type = user.getRole();
-            if (!Utils.isNull(userType) && !type.equals(userType)) {
+            if (!Utils.isNull(userType) && !userType.toLowerCase().equals(type)) {
                 continue;
             }
 

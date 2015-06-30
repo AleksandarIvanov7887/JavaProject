@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="#" class="navbar-brand logo-qmatic"><img style="height:20px;" src="img/logo.png"></a>
+            <a href="#" class="navbar-brand logo-qmatic"><img style="height:20px;" src="img/logo.jpg"></a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

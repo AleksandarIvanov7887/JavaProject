@@ -55,7 +55,7 @@
 <body>
     <div class="container my-jumbotron login-bg" style="width:500px; margin-top:150px;">
         <form action="#" class="form-horizontal Clean" style="width:470px; text-align:center;">
-            <img style="margin:15px 0px;" src="${pageContext.request.contextPath}/img/logo.png">
+            <img style="margin:15px 0px; width: 90%; height: 90%;" src="${pageContext.request.contextPath}/img/logo.jpg">
             <div class="row">
                 <div class="col-lg-10 col-lg-offset-1 offset-top">
                     <input id="user" class="form-control text-center"  type="text" placeholder="Username"/>

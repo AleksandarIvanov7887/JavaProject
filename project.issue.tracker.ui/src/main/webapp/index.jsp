@@ -683,7 +683,7 @@
 
         <div id="footer">
             <div class="container text-center">
-                <span class="text-primary"><script>document.write(new Date().getFullYear());</script> &copy DebugTracker</span>
+                <span class="text-primary"><script>document.write(new Date().getFullYear());</script> &copy IssueTracker</span>
                 <select id="project_names_collection" hidden="hidden">
                     <%
                     	QuerySelector selector = QuerySelector.getInstance();

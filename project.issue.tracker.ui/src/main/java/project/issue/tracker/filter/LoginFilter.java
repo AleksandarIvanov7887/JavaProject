@@ -39,6 +39,8 @@ public class LoginFilter implements Filter {
         	User userAdmin = new User();
         	userAdmin.setUserName(au);
         	userAdmin.setPassword(ap);
+        	userAdmin.setRole(User.TYPE_ADMIN);
+        	userAdmin.setItemsPerPage(10);
             servletRequest.getSession(true).setAttribute(ATTRIBUTES.USER_BEAN, userAdmin);
             chain.doFilter(request, response);
         } else {

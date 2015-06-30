@@ -26,12 +26,12 @@ public class TestConnection {
 //		p.setDescription("IssueTracker");
 //		p.setProjectName("name");
 //		
-		User u = new User();
-		u.setUserName("ax");
-		u.setPassword("aA12345678");
-		u.setEmail("alexander120116@abv.bg");
-		u.setFullName("Aleksandar Ivanov");
-		u.setRole("Administrator");
+//		User u = new User();
+//		u.setUserName("al");
+//		u.setPassword("aA12345678");
+//		u.setEmail("alexander120116@abv.bg");
+//		u.setFullName("Aleksandar Ivanov");
+//		u.setRole(User.TYPE_ADMIN);
 		
 		
 //		
@@ -42,11 +42,11 @@ public class TestConnection {
 //		u.getCreatedTasks().add(t);
 //		p.addTask(t);
 //		
-		em.getTransaction().begin();
+//		em.getTransaction().begin();
 //		em.persist(p);
-		em.persist(u);
+//		em.persist(u);
 //		em.persist(t);
-		em.getTransaction().commit();
+//		em.getTransaction().commit();
 
 //		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 //		CriteriaQuery<User> criteria = criteriaBuilder.createQuery(User.class);
@@ -61,6 +61,22 @@ public class TestConnection {
 //		final List<User> users = em.createQuery("SELECT u FROM User u").getResultList();
 //		
 //		System.out.println(users.get(0).getCreatedTasks().size());
+		
+		QuerySelector selector = QuerySelector.getInstance();
+		
+		try{
+			selector.getAllProjects();
+			selector.getAllTasks();
+			selector.getAllUsers();
+			selector.getProjectById("23");
+			selector.getProjectByName("name");
+			selector.getUsersByUName("username");
+		} catch (Exception exc) {
+			exc.printStackTrace();
+		}
+		
+		
+		
 	}
 
 }
