@@ -1,4 +1,4 @@
-package project.issue.tracker.database.db;
+package project.issue.tracker.database;
 
 import java.util.List;
 

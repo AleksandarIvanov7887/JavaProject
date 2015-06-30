@@ -1,4 +1,4 @@
-<%@page import="project.issue.tracker.database.db.QuerySelector"%>
+<%@page import="project.issue.tracker.database.QuerySelector"%>
 <%@ page import="project.issue.tracker.utils.Utils" %>
 <%@ page import="project.issue.tracker.utils.ATTRIBUTES" %>
 <%@ page import="project.issue.tracker.database.models.Project" %>

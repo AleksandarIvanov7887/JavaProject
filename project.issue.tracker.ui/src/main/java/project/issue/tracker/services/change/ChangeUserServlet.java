@@ -1,4 +1,4 @@
-package project.issue.tracker.services.change.user;
+package project.issue.tracker.services.change;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.mindrot.jbcrypt.BCrypt;
 
 import net.sf.json.JSONObject;
-import project.issue.tracker.database.db.QuerySelector;
+import project.issue.tracker.database.QuerySelector;
 import project.issue.tracker.database.models.User;
 import project.issue.tracker.utils.ATTRIBUTES;
 import project.issue.tracker.utils.FORM_PARAMS;

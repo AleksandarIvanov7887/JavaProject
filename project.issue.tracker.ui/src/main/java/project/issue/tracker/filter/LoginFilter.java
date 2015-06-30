@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import project.issue.tracker.database.db.QuerySelector;
+import project.issue.tracker.database.QuerySelector;
 import project.issue.tracker.database.models.User;
 import project.issue.tracker.utils.ATTRIBUTES;
 import project.issue.tracker.utils.FORM_PARAMS;

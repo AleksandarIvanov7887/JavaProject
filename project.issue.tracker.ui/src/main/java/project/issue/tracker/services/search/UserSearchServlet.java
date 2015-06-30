@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import project.issue.tracker.database.db.QuerySelector;
+import project.issue.tracker.database.QuerySelector;
 import project.issue.tracker.database.models.User;
 import project.issue.tracker.utils.FORM_PARAMS;
 import project.issue.tracker.utils.Utils;

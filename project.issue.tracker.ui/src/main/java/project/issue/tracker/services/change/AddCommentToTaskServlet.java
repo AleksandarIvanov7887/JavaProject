@@ -1,4 +1,4 @@
-package project.issue.tracker.services.change.task;
+package project.issue.tracker.services.change;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import project.issue.tracker.database.db.QuerySelector;
+import project.issue.tracker.database.QuerySelector;
 import project.issue.tracker.database.models.Comment;
 import project.issue.tracker.database.models.Task;
 import project.issue.tracker.database.models.User;

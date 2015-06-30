@@ -1,4 +1,4 @@
-package project.issue.tracker.services.change.task;
+package project.issue.tracker.services.change;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-import project.issue.tracker.database.db.QuerySelector;
+
+import project.issue.tracker.database.QuerySelector;
 import project.issue.tracker.database.models.Task;
 import project.issue.tracker.database.models.User;
 //import project.issue.tracker.database.utils.MailSystem;

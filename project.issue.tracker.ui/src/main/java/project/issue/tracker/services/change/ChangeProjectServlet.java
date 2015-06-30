@@ -1,4 +1,4 @@
-package project.issue.tracker.services.change.project;
+package project.issue.tracker.services.change;
 
 import java.io.IOException;
 
@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import project.issue.tracker.database.db.QuerySelector;
+import project.issue.tracker.database.QuerySelector;
 import project.issue.tracker.database.models.Project;
 import project.issue.tracker.utils.FORM_PARAMS;
 

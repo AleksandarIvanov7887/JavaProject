@@ -14,7 +14,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.validator.GenericValidator;
 
-import project.issue.tracker.database.db.QuerySelector;
+import project.issue.tracker.database.QuerySelector;
 import project.issue.tracker.database.models.User;
 import project.issue.tracker.utils.FORM_PARAMS;
 
