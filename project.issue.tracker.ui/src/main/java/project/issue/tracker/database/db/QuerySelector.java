@@ -117,7 +117,7 @@ public class QuerySelector {
 	}
 	
 	public Task getTaskById(String id) {
-		return entityManager.find(Task.class, Long.valueOf(id));
+		return entityManager.find(Task.class, Integer.valueOf(id));
 	}
 
 	public Project getProjectById(String id) {

@@ -13,16 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-
-
-
-
-
 import project.issue.tracker.database.db.QuerySelector;
 import project.issue.tracker.database.models.Task;
 import project.issue.tracker.database.models.User;
-import project.issue.tracker.database.utils.MailSystem;
-//import project.issue.tracker.database.models.DBEvent;
+//import project.issue.tracker.database.utils.MailSystem;
 import project.issue.tracker.utils.ATTRIBUTES;
 import project.issue.tracker.utils.FORM_PARAMS;
 import project.issue.tracker.utils.Utils;
@@ -76,14 +70,14 @@ public class ChangeTaskServlet extends HttpServlet {
             } else if (taskStatus.equals("Open")) {
                 currTask.setStatus(Task.STATUS_OPEN);
             }
-            MailSystem.sendMailAboutChangedStatus(currTask);
+//            MailSystem.sendMailAboutChangedStatus(currTask);
         }
         if (!currTask.getAssignee().getFullName().equals(targetedAssignee.getFullName())) {
             currTask.setAssignee(targetedAssignee);
-            MailSystem.sendMailAboutAssigneChange(currTask);
+//            MailSystem.sendMailAboutAssigneChange(currTask);
         }
         
-        SimpleDateFormat formatter = new SimpleDateFormat("EEEE, dd/MM/yyyy/hh:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 		Date parsedDate = null;
 		try {
 			parsedDate = formatter.parse(taskDDate);
@@ -92,7 +86,7 @@ public class ChangeTaskServlet extends HttpServlet {
 		}
         if (!currTask.getDueDate().equals(parsedDate)) {
             currTask.setDueDate(parsedDate);
-            MailSystem.sendMailAboutNewDueDate(currTask);
+//            MailSystem.sendMailAboutNewDueDate(currTask);
         }
         selector.persistObject(currTask);
 

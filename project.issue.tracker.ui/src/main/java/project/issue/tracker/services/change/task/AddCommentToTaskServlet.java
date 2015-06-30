@@ -8,10 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import project.issue.tracker.database.db.QuerySelector;
 import project.issue.tracker.database.models.Comment;
-//import project.issue.tracker.database.models.DBEvent;
 import project.issue.tracker.database.models.Task;
 import project.issue.tracker.database.models.User;
-import project.issue.tracker.database.utils.MailSystem;
+//import project.issue.tracker.database.utils.MailSystem;
 import project.issue.tracker.utils.ATTRIBUTES;
 import project.issue.tracker.utils.FORM_PARAMS;
 
@@ -49,7 +48,7 @@ public class AddCommentToTaskServlet extends HttpServlet {
         	selector.persistObject(newComment);
             resp.getWriter().print("{\"success\":\"comment added\"}");
             
-            MailSystem.sendMailAboutComment(task, currentUser, comment);
+//            MailSystem.sendMailAboutComment(task, currentUser, comment);
             
         } catch (Exception e) {
         	e.printStackTrace();

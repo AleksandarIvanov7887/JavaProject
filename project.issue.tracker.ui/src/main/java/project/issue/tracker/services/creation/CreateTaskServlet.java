@@ -51,7 +51,6 @@ public class CreateTaskServlet extends HttpServlet {
 				|| !description
 						.matches(REG_EX_DESC)
 				|| !assignee.matches(REG_EX_ASSIGNE)
-				|| !comment.matches(REG_EX_DESC)
 				|| !status.matches("^Open|In Process|Completed&")) {
 
 			out.print("{\"error\":\"Not a valid data entered.\"}");
@@ -107,7 +106,7 @@ public class CreateTaskServlet extends HttpServlet {
 			newTask.setImportant(true);
 		}
 		
-		SimpleDateFormat formatter = new SimpleDateFormat("EEEE, dd/MM/yyyy/hh:mm:ss");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 		Date parsedDate;
 		try {
 			parsedDate = formatter.parse(dueDate);

@@ -1,4 +1,4 @@
-package project.issue.tracker.database.utils;
+package project.issue.tracker.database.db;
 
 import java.util.Properties;
 

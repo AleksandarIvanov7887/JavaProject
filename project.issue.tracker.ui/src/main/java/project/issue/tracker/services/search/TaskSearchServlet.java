@@ -47,19 +47,20 @@ public class TaskSearchServlet extends HttpServlet {
             responseJSON.put("important", "true");
 
             for (Task task : currentUser.getAssignedTasks()) {
-            	
-            	Project project = task.getProject();
-                User user = task.getAssignee();
-                JSONObject dummy = new JSONObject();
-
-                dummy.put("tID", task.getId());
-                dummy.put("tName", task.getTitle());
-                dummy.put("tProject", project.getProjectName());
-                dummy.put("tAssignee", user.getFullName());
-                dummy.put("tStatus", task.getStatus());
-                dummy.put("tDDate", task.getDueDate());
-
-                tasksArray.add(dummy);
+            	if (task.isImportant()) {
+	            	Project project = task.getProject();
+	                User user = task.getAssignee();
+	                JSONObject dummy = new JSONObject();
+	
+	                dummy.put("tID", task.getId());
+	                dummy.put("tName", task.getTitle());
+	                dummy.put("tProject", project.getProjectName());
+	                dummy.put("tAssignee", user.getFullName());
+	                dummy.put("tStatus", task.getStatus());
+	                dummy.put("tDDate", task.getDueDate());
+	
+	                tasksArray.add(dummy);
+            	}
             }
         } else {
 

@@ -10,7 +10,7 @@
         <%@include file="includes/bootstrap_header.jsp" %>
         <script src="includes/javascript/control.js" type="text/javascript"></script>
         <script src="includes/javascript/validation.js" type="text/javascript"></script>
-        <title>DebugTracker</title>
+        <title>Issue Tracker</title>
         <script type="text/javascript">
             var project_names = [];
             var task_names = [];
