@@ -1,9 +1,12 @@
 package file.processing.app;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,8 +17,8 @@ public class DataTransformator {
 
 	private Path pathToFile;
 	
-	public DataTransformator(String Path) {
-		pathToFile = Paths.get("/Users/aleksandarivanov/Documents/workspace/file.processing.app/example");
+	public DataTransformator(String path) {
+		pathToFile = Paths.get(path);
 	}
 	
 	public DataHolder getDataHolder() {
@@ -30,18 +33,33 @@ public class DataTransformator {
 		
 		try (InputStream in = Files.newInputStream(pathToFile);
 			    BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+			
 			    String line = null;
-			    int lineNumber = 0;
 			    while ((line = reader.readLine()) != null) {
 			    	String [] words = line.split("[ \t]");
 			    	ArrayList<String> listWords = new ArrayList<String>(Arrays.asList(words));
-			    	mapLines.set(lineNumber, listWords);
-			    	lineNumber++;
+			    	mapLines.add(listWords);
 			    }
 			} catch (IOException x) {
 			    System.err.println(x);
 			}
 		
 		return mapLines;
+	}
+	
+	public void writeData(DataHolder holder) {
+		try (OutputStream out = Files.newOutputStream(pathToFile);
+				BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out))) {
+				
+				for (ArrayList<String> line : holder.getData()) {
+					for(int i = 0 ; i < line.size() - 1; i++) {
+						writer.write(line.get(i) + " ");
+					}
+					writer.write(line.get(line.size()-1));
+					writer.newLine();
+				}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -6,21 +6,23 @@ import java.util.Collections;
 public class DataHolder {
 	
 	private ArrayList<ArrayList<String>> mapLines;
-	private DataValidator validator;
 	
 	public DataHolder(ArrayList<ArrayList<String>> mapLines) {
 		this.mapLines = mapLines;
-		validator = new DataValidator();
+	}
+	
+	public ArrayList<ArrayList<String>> getData() {
+		return mapLines;
 	}
 	
 	public void validateData() {
 		for (ArrayList<String> line : mapLines) {
 			if (line.contains("")) {
-				
+				System.out.println("not valid");
 			}
 			for (String word : line) {
-				if (word.startsWith("0") || !word.matches("[0-9]")) {
-					
+				if (word.startsWith("0") || !word.matches("([0-9])\\w+")) {
+					System.out.println("not valid");
 				}
 			}
 		}
