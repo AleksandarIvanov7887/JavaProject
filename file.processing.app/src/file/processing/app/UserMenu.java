@@ -1,5 +1,6 @@
 package file.processing.app;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UserMenu {
@@ -15,60 +16,90 @@ public class UserMenu {
 	}
 	
 	public void startMenu() {
-		printDoc();
-		int code = scanner.nextInt();
-		while(code != 0) {
-			switch (code) {
-				case 1:
+		String choice = null;
+		while(!"0".equals(choice)) {
+			printDoc();
+			choice = scanner.nextLine();
+			
+			switch (choice) {
+				case "1":
 					holder.validateData();
 					break;
-				case 2:
+				case "2":
 					switchLines();
 					break;
-				case 3:
+				case "3":
 					switchWords();
 					break;
-				case 4:
+				case "4":
 					reverseLine();
 					break;
-				case 5:
+				case "5":
 					holder.reverseLines();
 					break;
-				case 6:
-					printDoc();
+				case "6":
+					validateAndSave();
+					break;
+				default:
+					System.out.println("Your choice did not match the options in the menu.");
 					break;
 			}
-			code = scanner.nextInt();
 		}
-		
-		transformator.writeData(holder);
+	}
+
+	private void validateAndSave() {
+		if (holder.validateData()) {
+			transformator.writeData(holder);
+		} else {
+			System.err.println("Saving the changes was discarded.");
+		}
 	}
 
 	private void reverseLine() {
 		System.out.println(Messages.REVERSE_LINE_MESSAGE);
-		int line = scanner.nextInt();
-		holder.reverseLine(line - 1);
+		try {
+			int line = scanner.nextInt();
+			holder.reverseLine(line - 1);
+			scanner.nextLine();
+		} catch (InputMismatchException exc) {
+			System.err.println(exc);
+			scanner.nextLine();
+		}
 		
 	}
+	
 
 	private void switchWords() {
 		System.out.println(Messages.SWITCH_WORDS_MESSAGE);
-		int firstLine = scanner.nextInt();
-		int firstWord = scanner.nextInt();
-		int secondLine = scanner.nextInt();
-		int secondWord = scanner.nextInt();
-		holder.switchWords(firstLine - 1, firstWord - 1, secondLine - 1, secondWord - 1);
+		try {
+			int firstLine = scanner.nextInt();
+			int firstWord = scanner.nextInt();
+			int secondLine = scanner.nextInt();
+			int secondWord = scanner.nextInt();
+			holder.switchWords(firstLine - 1, firstWord - 1, secondLine - 1, secondWord - 1);
+		} catch (InputMismatchException exc) {
+			System.err.println(exc);
+			scanner.nextLine();
+		}
 		
 	}
 
 	private void switchLines() {
 		System.out.println(Messages.SWITCH_LINES_MESSAGE);
-		int firstLine = scanner.nextInt();
-		int secondLine = scanner.nextInt();
-		holder.switchLines(firstLine - 1, secondLine - 1);
+		int firstLine;
+		int secondLine;
+		try {
+			firstLine = scanner.nextInt();
+			secondLine = scanner.nextInt();
+			holder.switchLines(firstLine - 1, secondLine - 1);
+		} catch (InputMismatchException exc) {
+			System.err.println(exc);
+			scanner.nextLine();
+		}
 	}
 
 	private void printDoc() {
+		System.out.println();
 		System.out.println(Messages.VALIDATE_MESSAGE_MENU);
 		System.out.println(Messages.SWITCH_LINES_MESSAGE_MENU);
 		System.out.println(Messages.SWITCH_WORDS_MENU);
@@ -76,5 +107,7 @@ public class UserMenu {
 		System.out.println(Messages.REVERSE_LINES_MENU);
 		System.out.println(Messages.DOC);
 		System.out.println(Messages.EXIT_MESSAGE_MENU);
+		System.out.println();
 	}
+	
 }

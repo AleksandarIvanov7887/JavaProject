@@ -9,7 +9,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -17,8 +16,8 @@ public class DataTransformator {
 
 	private Path pathToFile;
 	
-	public DataTransformator(String path) {
-		pathToFile = Paths.get(path);
+	public DataTransformator(Path path) {
+		pathToFile = path;
 	}
 	
 	public DataHolder getDataHolder() {
@@ -43,7 +42,7 @@ public class DataTransformator {
 			} catch (IOException x) {
 			    System.err.println(x);
 			}
-		
+		System.out.println("Converting file data successful.");
 		return mapLines;
 	}
 	
@@ -61,5 +60,6 @@ public class DataTransformator {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("Writing to file successful");
 	}
 }
