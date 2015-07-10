@@ -5,17 +5,19 @@ import java.util.Scanner;
 public class FileProcessingApplication {
 
 	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
-		FileNameInputHandler nameInputHandler = new FileNameInputHandler(scanner);
+		try (Scanner scanner = new Scanner(System.in);) {
+			FileNameInputHandler nameInputHandler = new FileNameInputHandler(scanner);
+			
+			InputFile transformator = nameInputHandler.typeInFileName();
+			DataProcessor holder = transformator.readData();
+			
+			UserMenu userMenu = new UserMenu(holder, transformator, scanner);
+			userMenu.startMenu();
+			
+		} catch (Exception exc){
+			exc.printStackTrace();
+		}
 		
-		DataTransformator transformator = nameInputHandler.inputFileName();
-		DataHolder holder = transformator.getDataHolder();
-		
-		
-		UserMenu userMenu = new UserMenu(holder, transformator, scanner);
-		userMenu.startMenu();
-		scanner.close();
-		
-//		/Users/aleksandarivanov/git/JavaProject/file.processing.app/example
+//		/Users/aleksandarivanov/git/JavaProject/file.processing.app/example.txt
 	}
 }

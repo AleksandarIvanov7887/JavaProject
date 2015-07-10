@@ -14,19 +14,19 @@ public class FileNameInputHandler {
 		this.scanner = scanner;
 	}
 
-	public DataTransformator inputFileName() {
-		System.out.println("Please type in the name of your file: ");
+	public InputFile typeInFileName() {
+		System.out.println(Messages.ENTER_FILENAME);
 		String fileName = scanner.nextLine();
 		
 		Path pathToFile = Paths.get(fileName);
 		File file = pathToFile.toFile();
 		while (!file.exists()) {
-			System.out.println("The file doesn't exist. Please check if the file exists and it's name and type it again: ");
+			System.err.println(Messages.FILE_NOT_FOUND);
 			fileName = scanner.nextLine();
 			pathToFile = Paths.get(fileName);
 			file = pathToFile.toFile();
 		}
 		
-		return new DataTransformator(pathToFile);
+		return new InputFile(pathToFile);
 	}
 }

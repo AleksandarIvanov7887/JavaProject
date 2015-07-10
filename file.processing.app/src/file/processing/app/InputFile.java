@@ -12,23 +12,16 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class DataTransformator {
+public class InputFile {
 
 	private Path pathToFile;
 	
-	public DataTransformator(Path path) {
+	public InputFile(Path path) {
 		pathToFile = path;
 	}
 	
-	public DataHolder getDataHolder() {
-		ArrayList<ArrayList<String>> mapLines = transformData();
-		
-		DataHolder dataHolder = new DataHolder(mapLines);
-		return dataHolder;
-	}
-	
-	private ArrayList<ArrayList<String>> transformData() {
-		ArrayList<ArrayList<String>> mapLines = new ArrayList<ArrayList<String>>();
+	public DataProcessor readData() {
+		ArrayList<ArrayList<String>> lines = new ArrayList<ArrayList<String>>();
 		
 		try (InputStream in = Files.newInputStream(pathToFile);
 			    BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
@@ -37,16 +30,18 @@ public class DataTransformator {
 			    while ((line = reader.readLine()) != null) {
 			    	String [] words = line.split("[ \t]");
 			    	ArrayList<String> listWords = new ArrayList<String>(Arrays.asList(words));
-			    	mapLines.add(listWords);
+			    	lines.add(listWords);
 			    }
+			    System.out.println(Messages.CONVERT_SUCCESSFUL);
 			} catch (IOException x) {
 			    System.err.println(x);
+			    System.exit(0);
 			}
-		System.out.println("Converting file data successful.");
-		return mapLines;
+		
+		return new DataProcessor(lines);
 	}
 	
-	public void writeData(DataHolder holder) {
+	public void writeData(DataProcessor holder) {
 		try (OutputStream out = Files.newOutputStream(pathToFile);
 				BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out))) {
 				
@@ -57,9 +52,10 @@ public class DataTransformator {
 					writer.write(line.get(line.size()-1));
 					writer.newLine();
 				}
+				System.out.println(Messages.WRITE_SUCCESSFUL);
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.exit(0);
 		}
-		System.out.println("Writing to file successful");
 	}
 }

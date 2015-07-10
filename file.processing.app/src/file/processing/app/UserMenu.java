@@ -5,11 +5,11 @@ import java.util.Scanner;
 
 public class UserMenu {
 
-	private DataHolder holder;
-	private DataTransformator transformator;
+	private DataProcessor holder;
+	private InputFile transformator;
 	private Scanner scanner;
 	
-	public UserMenu(DataHolder holder, DataTransformator transformator, Scanner scanner) {
+	public UserMenu(DataProcessor holder, InputFile transformator, Scanner scanner) {
 		this.holder = holder;
 		this.transformator = transformator;
 		this.scanner = scanner;
@@ -22,6 +22,8 @@ public class UserMenu {
 			choice = scanner.nextLine();
 			
 			switch (choice) {
+				case "0":
+					break;
 				case "1":
 					holder.validateData();
 					break;
@@ -41,17 +43,18 @@ public class UserMenu {
 					validateAndSave();
 					break;
 				default:
-					System.out.println("Your choice did not match the options in the menu.");
+					System.out.println(Messages.NO_MATCH_CHOICE);
 					break;
 			}
 		}
+		System.out.println(Messages.EXIT_MESSAGE);
 	}
 
 	private void validateAndSave() {
 		if (holder.validateData()) {
 			transformator.writeData(holder);
 		} else {
-			System.err.println("Saving the changes was discarded.");
+			System.err.println(Messages.SAVE_FAILED);
 		}
 	}
 
@@ -60,12 +63,10 @@ public class UserMenu {
 		try {
 			int line = scanner.nextInt();
 			holder.reverseLine(line - 1);
-			scanner.nextLine();
 		} catch (InputMismatchException exc) {
-			System.err.println(exc);
-			scanner.nextLine();
+			System.err.println(Messages.INPUT_MISMATCH);
 		}
-		
+		scanner.nextLine();
 	}
 	
 
@@ -78,24 +79,21 @@ public class UserMenu {
 			int secondWord = scanner.nextInt();
 			holder.switchWords(firstLine - 1, firstWord - 1, secondLine - 1, secondWord - 1);
 		} catch (InputMismatchException exc) {
-			System.err.println(exc);
-			scanner.nextLine();
+			System.err.println(Messages.INPUT_MISMATCH);
 		}
-		
+		scanner.nextLine();
 	}
 
 	private void switchLines() {
 		System.out.println(Messages.SWITCH_LINES_MESSAGE);
-		int firstLine;
-		int secondLine;
 		try {
-			firstLine = scanner.nextInt();
-			secondLine = scanner.nextInt();
+			int firstLine = scanner.nextInt();
+			int secondLine = scanner.nextInt();
 			holder.switchLines(firstLine - 1, secondLine - 1);
 		} catch (InputMismatchException exc) {
-			System.err.println(exc);
-			scanner.nextLine();
+			System.err.println(Messages.INPUT_MISMATCH);
 		}
+		scanner.nextLine();
 	}
 
 	private void printDoc() {
